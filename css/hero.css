@@ -1,0 +1,238 @@
+/* ==========================================================================
+   HERO
+   Full-bleed homepage hero: a background layer, a darkening overlay, and
+   the content pinned to the bottom-left. Stat numbers count up via
+   js/stats.js; the word entrance below is pure CSS, no script involved.
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  /* Fills the screen below the sticky nav, on every device — no separate
+     breakpoints needed since this is relative to whatever viewport it's in */
+  min-height: calc(100vh - var(--nav-height));
+  display: flex;
+  align-items: flex-end;
+}
+
+
+/* --------------------------------------------------------------------------
+   Background layer
+   -------------------------------------------------------------------------- */
+
+/* Put a real <img> or <video> here later — give it class="hero-bg" too and
+   this sizing/positioning still applies with no other changes. */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Darkens toward the bottom so the title stays readable no matter what
+   ends up behind it — a bright screenshot would otherwise wash the text out */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 16, 15, 0.15) 0%,
+    rgba(18, 16, 15, 0.55) 60%,
+    rgba(18, 16, 15, 0.9) 100%
+  );
+}
+
+
+/* --------------------------------------------------------------------------
+   Content — pinned to the bottom, above the overlay
+   -------------------------------------------------------------------------- */
+
+.hero-bottom {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1.25rem 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: end;
+  gap: 1.5rem;
+}
+
+.hero-title {
+  margin: 0;
+  color: var(--text);
+  line-height: 0.95;
+  /* clamp(min, preferred, max) scales with the viewport instead of jumping
+     between fixed sizes at breakpoints — the giant-title look from the
+     reference, without a media query for every screen width */
+  font-size: clamp(3rem, 14vw, 8rem);
+}
+
+.hero-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.3em);
+  animation: hero-word-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-word:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+@keyframes hero-word-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  /* Fades up after the title words, same easing, later delay */
+  opacity: 0;
+  transform: translateY(0.6em);
+  animation: hero-word-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.4s;
+}
+
+.tagline {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 1.1rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   Stat strip
+   -------------------------------------------------------------------------- */
+
+.stat-strip {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--red-bright);
+  /* Fixed-width digits so the number doesn't jitter while counting up */
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  margin-top: 0.15rem;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+
+/* --------------------------------------------------------------------------
+   Pill button (hero CTA)
+   -------------------------------------------------------------------------- */
+
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.35rem 0.35rem 0.35rem 1.25rem;
+  border-radius: 999px;
+  background-color: var(--red-bright);
+  /* Same reasoning as the main .btn-primary: dark text on the bright red
+     fill keeps contrast around 5.7:1 instead of ~2.6:1 with light text */
+  color: var(--bg);
+  font-weight: 700;
+  transition: gap 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.btn-pill:hover {
+  gap: 1rem;
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(226, 75, 74, 0.35);
+}
+
+.btn-pill-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background-color: var(--bg);
+  color: var(--red-bright);
+  transition: transform 0.2s ease;
+}
+
+.btn-pill-icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.btn-pill:hover .btn-pill-icon {
+  transform: scale(1.1);
+}
+
+
+/* --------------------------------------------------------------------------
+   Sub-page hero (events / guides / prices / gallery / wiki) — unchanged
+   -------------------------------------------------------------------------- */
+
+.page-hero {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 3rem 1.25rem 1rem;
+  text-align: center;
+}
+
+.page-hero h1 {
+  font-size: 2.25rem;
+}
+
+.page-intro {
+  color: var(--text-dim);
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+
+/* --------------------------------------------------------------------------
+   Desktop: title and copy sit side by side instead of stacked
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 800px) {
+  .hero-bottom {
+    grid-template-columns: 2fr 1fr;
+    gap: 2.5rem;
+    padding: 0 2rem 3.5rem;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-word,
+  .hero-copy {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .btn-pill:hover {
+    transform: none;
+  }
+}

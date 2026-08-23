@@ -1,0 +1,187 @@
+/* ==========================================================================
+   CONTENT BLOCKS
+   Reusable pieces used across the sub-pages: the event highlight card,
+   data tables (schedules, prices, glossary), and the video / image grids
+   that currently hold placeholders.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Event highlight
+   -------------------------------------------------------------------------- */
+
+.event-highlight {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--red);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.event-tag {
+  display: inline-block;
+  background-color: var(--red);
+  color: var(--text);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+}
+
+.event-date {
+  color: var(--red-bright);
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+
+/* --------------------------------------------------------------------------
+   Data tables
+   The wrapper scrolls sideways on narrow phones instead of squashing the
+   table or forcing the whole page to scroll horizontally.
+   -------------------------------------------------------------------------- */
+
+.table-wrap {
+  overflow-x: auto;
+  margin-top: 1.5rem;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 420px;
+}
+
+.data-table th,
+.data-table td {
+  text-align: left;
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+.data-table th {
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.data-table td {
+  color: var(--text);
+}
+
+.data-table tbody tr:hover {
+  background-color: var(--surface);
+}
+
+
+/* --------------------------------------------------------------------------
+   Video grid
+   -------------------------------------------------------------------------- */
+
+.video-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.video-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+/* Dashed box standing in until a real embed is dropped in. Keeping the 16:9
+   ratio means swapping in an iframe won't shift the layout. */
+.video-placeholder {
+  aspect-ratio: 16 / 9;
+  background-color: var(--bg);
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+/* A real YouTube embed, sized to match the placeholder it replaces so
+   swapping one in doesn't shift the layout. */
+.video-embed {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+  background-color: var(--bg);
+}
+
+.video-title {
+  color: var(--text);
+  font-weight: 700;
+  margin-bottom: 0.4em;
+}
+
+
+/* --------------------------------------------------------------------------
+   Image grid
+   -------------------------------------------------------------------------- */
+
+.image-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.image-placeholder {
+  aspect-ratio: 4 / 3;
+  background-color: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+/* A real photo. Same footprint as the placeholder above; object-fit crops
+   rather than squashing pictures that aren't 4:3. */
+.gallery-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+
+@media (min-width: 700px) {
+  .video-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .image-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .video-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .image-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

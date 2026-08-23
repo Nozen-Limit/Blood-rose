@@ -1,0 +1,114 @@
+/* ==========================================================================
+   SEARCH OVERLAY
+   Full-screen dialog opened by the nav search button.
+   Behaviour lives in js/search.js; the list it searches is js/search-index.js.
+   ========================================================================== */
+
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background-color: rgba(18, 16, 15, 0.85);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 4.5rem 1.25rem 1.25rem;
+}
+
+/* The HTML `hidden` attribute is the source of truth for open/closed.
+   Without this rule the display:flex above would override it. */
+.search-overlay[hidden] {
+  display: none;
+}
+
+.search-panel {
+  width: 100%;
+  max-width: 32rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.search-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+.search-panel-header svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+.search-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.1rem 0.3rem;
+}
+
+.search-close-btn:hover {
+  color: var(--red-bright);
+}
+
+
+/* --------------------------------------------------------------------------
+   Results
+   -------------------------------------------------------------------------- */
+
+.search-results {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.search-results li {
+  border-top: 1px solid var(--border);
+}
+
+.search-results a {
+  display: block;
+  padding: 0.85rem 1rem;
+  color: var(--text);
+}
+
+.search-results a:hover,
+.search-results a:focus-visible {
+  background-color: var(--bg);
+  text-decoration: none;
+}
+
+.search-results .search-result-section {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--red-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 0.15em;
+}
+
+.search-empty {
+  padding: 1rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}

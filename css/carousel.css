@@ -1,0 +1,93 @@
+/* ==========================================================================
+   CAROUSEL
+   A page of items at a time, with tap arrows to move between pages.
+   Built by BR.buildCarousel in js/render.js — this file is only the look
+   of it. Used by both the video guides and the officer roster; the grid
+   INSIDE each slide keeps its own class, so each content type controls its
+   own column sizing.
+   ========================================================================== */
+
+.carousel {
+  position: relative;
+  margin-top: 1.5rem;
+  /* Side padding leaves room for the arrows without them sitting on top
+     of the video itself */
+  padding: 0 2.25rem;
+}
+
+.carousel-viewport {
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.3s ease;
+}
+
+.carousel-slide {
+  /* Each slide takes exactly the full width, never grows or shrinks */
+  flex: 0 0 100%;
+  /* Without this, a slide can force itself wider than its share of the
+     track based on its content's natural size, breaking the slide-width
+     math the carousel relies on */
+  min-width: 0;
+}
+
+/* The grids normally carry their own top margin for standalone use
+   (content.css / cards.css) — reset to 0 here since .carousel already
+   provides spacing above the whole widget */
+.carousel-slide > * {
+  margin-top: 0;
+}
+
+.carousel-arrow {
+  position: absolute;
+  /* Near the top rather than dead-centre: on phones a slide can be several
+     stacked cards tall, and a vertically-centred arrow would end up far
+     down the page, away from where the eye is. */
+  top: 5.5rem;
+  transform: translateY(-50%);
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.carousel-arrow svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.carousel-arrow:hover {
+  border-color: var(--red);
+  color: var(--red-bright);
+}
+
+.carousel-prev {
+  left: 0;
+}
+
+.carousel-next {
+  right: 0;
+}
+
+.carousel-counter {
+  margin: 0.6rem 0 0;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track {
+    transition: none;
+  }
+}

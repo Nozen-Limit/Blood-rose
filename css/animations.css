@@ -1,0 +1,42 @@
+/* ==========================================================================
+   SCROLL REVEAL
+   Elements marked .reveal in the HTML fade and slide up as they scroll into
+   view. js/reveal.js adds .is-visible when that happens.
+
+   Everything here is gated behind `.js`, a class that js/utils.js puts on
+   <html>. If JavaScript never runs, none of these rules match and the
+   content simply stays visible — the page degrades instead of going blank.
+   ========================================================================== */
+
+.js .reveal {
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* The hidden state is written as :not(.is-visible) rather than as a second
+   competing .is-visible rule. A rule like `.js .reveal.is-visible {transform:
+   translateY(0)}` would out-specify `.goal-card:hover {transform: ...}` and
+   silently kill the card hover lift once revealed. This way the hidden rule
+   stops matching entirely and gets out of the way. */
+.js .reveal:not(.is-visible) {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+
+/* --------------------------------------------------------------------------
+   Reduced motion
+   Component-specific overrides live in each component's own file; this is
+   just the global scroll behaviour and the reveal itself.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

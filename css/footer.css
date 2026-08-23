@@ -1,0 +1,163 @@
+/* ==========================================================================
+   FOOTER & FLOATING UI
+   Site footer, the copy-link button, the back-to-top button, and the
+   sticky Discord bar that only appears on phones.
+   ========================================================================== */
+
+.site-footer {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 3rem 1.25rem 4rem;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+.footer-discord {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.last-updated {
+  margin-top: 1.25rem;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   Copy-link button — behaviour in js/clipboard.js
+   -------------------------------------------------------------------------- */
+
+.copy-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.copy-link-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.copy-link-btn:hover {
+  border-color: var(--red);
+  color: var(--red-bright);
+}
+
+/* Brief confirmation state after a successful copy */
+.copy-link-btn.is-copied {
+  border-color: var(--red-bright);
+  color: var(--red-bright);
+}
+
+
+/* --------------------------------------------------------------------------
+   Back-to-top button
+   Both floating elements use opacity + visibility rather than display:none
+   so they can fade rather than snap. js/floating-ui.js toggles .is-visible.
+   -------------------------------------------------------------------------- */
+
+.back-to-top {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 90;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s,
+    border-color 0.2s ease, color 0.2s ease;
+}
+
+.back-to-top svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  border-color: var(--red);
+  color: var(--red-bright);
+}
+
+
+/* --------------------------------------------------------------------------
+   Sticky mobile Discord bar
+   -------------------------------------------------------------------------- */
+
+.mobile-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+  padding: 0.75rem 1rem;
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(100%);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+}
+
+.mobile-cta.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.mobile-cta-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+
+/* 900px matches the nav breakpoint in nav.css — above it the Discord link
+   is visible in the nav bar, so the sticky version is redundant. Below it
+   the nav is collapsed behind the hamburger, so the sticky bar earns its
+   place. Keep these two numbers in sync. */
+@media (min-width: 900px) {
+  .mobile-cta {
+    display: none;
+  }
+}
+
+@media (max-width: 899.98px) {
+  /* Lifted so it clears the sticky Discord bar */
+  .back-to-top {
+    bottom: 5.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top,
+  .mobile-cta {
+    transition: opacity 0.01s linear;
+  }
+}

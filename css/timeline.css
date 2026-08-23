@@ -1,0 +1,218 @@
+/* ==========================================================================
+   TIMELINE
+   The event roadmap on events.html — a vertical line of dated entries, each
+   with a status, that opens to show more detail.
+
+   Opening works three ways so it's usable everywhere:
+     hover        — desktop, via @media (hover: hover) so phones don't get
+                    stuck-open entries from a stray tap
+     tap / click  — js/timeline.js toggles .is-open
+     keyboard     — :focus-within, no JS needed
+   ========================================================================== */
+
+/* Shown when the data file has no events in it */
+.timeline-empty {
+  margin-top: 1.5rem;
+  color: var(--text-dim);
+}
+
+.timeline-month {
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.timeline-month:first-of-type {
+  margin-top: 1.5rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   The line itself
+   -------------------------------------------------------------------------- */
+
+.timeline {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 1.5rem;
+  list-style: none;
+}
+
+/* The vertical rule, drawn behind the dots.
+   left:6px + width:2px centres it on 7px — which is exactly where the dots
+   sit (they start at 0 and are 14px wide including their border). */
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  left: 6px;
+  width: 2px;
+  background-color: var(--border);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   Entry row — a real <button>, so tap, Enter and Space all work for free
+   -------------------------------------------------------------------------- */
+
+.timeline-entry {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.6rem;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.timeline-item:hover .timeline-entry {
+  border-color: var(--red);
+}
+
+/* Dot sitting on the vertical line. Colour comes from the item's status
+   (see the data-status rules further down).
+   The -1.5rem cancels the list's padding, putting the dot back at the very
+   left edge; the --bg border punches a gap in the line behind it. */
+.timeline-dot {
+  position: absolute;
+  top: 1.15rem;
+  left: -1.5rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--text-dim);
+  border: 2px solid var(--bg);
+  box-sizing: content-box;
+}
+
+.timeline-date {
+  color: var(--red-bright);
+  font-weight: 700;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.timeline-title {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+}
+
+
+/* --------------------------------------------------------------------------
+   Status badge
+   -------------------------------------------------------------------------- */
+
+.status {
+  flex-shrink: 0;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  /* Set per status below */
+  color: var(--text-dim);
+}
+
+/* One attribute on the <li> drives both the dot and the badge, so changing
+   an event's status is a single edit in the HTML. */
+.timeline-item[data-status="ongoing"] .status { color: var(--status-ongoing); }
+.timeline-item[data-status="ongoing"] .timeline-dot { background-color: var(--status-ongoing); }
+
+.timeline-item[data-status="done"] .status { color: var(--status-done); }
+.timeline-item[data-status="done"] .timeline-dot { background-color: var(--status-done); }
+
+.timeline-item[data-status="rescheduled"] .status { color: var(--status-rescheduled); }
+.timeline-item[data-status="rescheduled"] .timeline-dot { background-color: var(--status-rescheduled); }
+
+.timeline-item[data-status="canceled"] .status { color: var(--status-canceled); }
+.timeline-item[data-status="canceled"] .timeline-dot { background-color: var(--status-canceled); }
+
+/* Struck through as well as recoloured, so "canceled" doesn't rely on
+   colour alone — colourblind readers get the same message. */
+.timeline-item[data-status="canceled"] .timeline-title {
+  text-decoration: line-through;
+  color: var(--text-dim);
+}
+
+/* Gentle pulse to draw the eye to whatever is running right now */
+.timeline-item[data-status="ongoing"] .timeline-dot {
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(226, 75, 74, 0.5); }
+  50%      { box-shadow: 0 0 0 5px rgba(226, 75, 74, 0); }
+}
+
+
+/* --------------------------------------------------------------------------
+   Details panel
+   -------------------------------------------------------------------------- */
+
+.timeline-details {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 0 0.75rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  transition: max-height 0.25s ease, opacity 0.25s ease, padding 0.25s ease;
+}
+
+.timeline-details p {
+  color: var(--text-dim);
+  margin: 0 0 0.5em;
+}
+
+.timeline-details p:last-child {
+  margin-bottom: 0;
+}
+
+/* Open state — shared by the tap toggle and keyboard focus */
+.timeline-details.is-open,
+.timeline-item:focus-within .timeline-details {
+  max-height: 16rem;
+  opacity: 1;
+  padding: 0.75rem;
+}
+
+/* Hover only on devices that genuinely hover. Without this guard, a tap on
+   a phone leaves the entry in a hover state that never clears. */
+@media (hover: hover) {
+  .timeline-item:hover .timeline-details {
+    max-height: 16rem;
+    opacity: 1;
+    padding: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-entry,
+  .timeline-details {
+    transition: none;
+  }
+
+  .timeline-item[data-status="ongoing"] .timeline-dot {
+    animation: none;
+  }
+}
