@@ -328,6 +328,37 @@
   }
 }
 
+/* --------------------------------------------------------------------------
+   Goal pyramid — 2 cards on top, 3 below (homepage Our Goals only)
+
+   auto-fit (above) can't produce a fixed "2 then 3" split — it only reacts
+   to available width, not card count. This uses explicit grid positions
+   instead: 6 columns total, since 6 is the smallest number both 2 and 3
+   divide into evenly. Cards 1–2 each span 3 of the 6 columns (two cards,
+   half the row each); cards 3–5 each span 2 (three cards, a third each).
+   With no explicit row set, the grid auto-wraps card 3 to a new row on its
+   own, since only 6 columns exist per row and cards 1–2 already used all 6.
+
+   (.goal-grid.goal-grid-pyramid has 2 classes, so it naturally overrides
+   the 1-class .goal-grid rule above regardless of source order.)
+   -------------------------------------------------------------------------- */
+@media (min-width: 700px) {
+  .goal-grid.goal-grid-pyramid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .goal-grid-pyramid > :nth-child(1),
+  .goal-grid-pyramid > :nth-child(2) {
+    grid-column: span 3;
+  }
+
+  .goal-grid-pyramid > :nth-child(3),
+  .goal-grid-pyramid > :nth-child(4),
+  .goal-grid-pyramid > :nth-child(5) {
+    grid-column: span 2;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .goal-card:hover,
   .officer-card:hover {
