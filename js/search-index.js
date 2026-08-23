@@ -40,5 +40,5 @@ window.BR.searchIndex = [
   { title: "Glossary", section: "Wiki", url: "wiki.html#glossary", keywords: "glossary terms definitions abbreviations" },
 
   // Replace this URL with the real Discord invite when you have it
-  { title: "Join our Discord", section: "Discord", url: "https://discord.gg/bloodrose", keywords: "discord invite join chat link" }
+  { title: "Join our Discord", section: "Discord", url: "https://discord.gg/PbFs4eXEv4", keywords: "discord invite join chat link" }
 ];
