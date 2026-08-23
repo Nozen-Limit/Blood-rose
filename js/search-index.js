@@ -12,6 +12,18 @@
    section  — which page it lives on, shown as the small red label
    url      — where the result links to; "page.html#id" jumps to that section
    keywords — extra words that should match, never displayed
+
+   ---------------------------------------------------------------------------
+   ONLY HOMEPAGE SECTIONS ARE LISTED RIGHT NOW.
+
+   Events, Guides, Prices, Gallery and Wiki are under development on the
+   live site, so their entries are commented out below rather than deleted.
+   A search result that leads to an empty "Under Development" page is worse
+   than no result at all.
+
+   WHEN A PAGE GOES LIVE: uncomment its block here, and add its data file
+   back to that page's script list (see the comment in index.html).
+   ---------------------------------------------------------------------------
    ========================================================================== */
 
 window.BR = window.BR || {};
@@ -20,6 +32,11 @@ window.BR.searchIndex = [
   { title: "Our Story", section: "Home", url: "index.html#story", keywords: "history founded guild about" },
   { title: "Our Goals", section: "Home", url: "index.html#goals", keywords: "goals mission gvg elite roster community" },
   { title: "Officers", section: "Home", url: "index.html#officers", keywords: "officers guild master ranks staff" },
+
+  // Replace this URL with the real Discord invite when you have it
+  { title: "Join our Discord", section: "Discord", url: "https://discord.gg/PbFs4eXEv4", keywords: "discord invite join chat link" }
+
+  /* ---------- Restore these as each page goes live ----------
 
   { title: "Event Roadmap", section: "Events", url: "events.html#roadmap", keywords: "events roadmap timeline schedule dates recruiting gvg ongoing done rescheduled canceled" },
 
@@ -37,8 +54,7 @@ window.BR.searchIndex = [
 
   { title: "Classes", section: "Wiki", url: "wiki.html#classes", keywords: "warrior rogue sorcerer class reference" },
   { title: "Mechanics", section: "Wiki", url: "wiki.html#mechanics", keywords: "mechanics game systems reference" },
-  { title: "Glossary", section: "Wiki", url: "wiki.html#glossary", keywords: "glossary terms definitions abbreviations" },
+  { title: "Glossary", section: "Wiki", url: "wiki.html#glossary", keywords: "glossary terms definitions abbreviations" }
 
-  // Replace this URL with the real Discord invite when you have it
-  { title: "Join our Discord", section: "Discord", url: "https://discord.gg/PbFs4eXEv4", keywords: "discord invite join chat link" }
+  ---------------------------------------------------------- */
 ];

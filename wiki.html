@@ -107,33 +107,21 @@
 
   <main>
 
-    <section class="page-hero">
+    <!-- ============ UNDER DEVELOPMENT ============ -->
+    <!--
+      Deliberate placeholder. The finished version of this page is being
+      built in the bloodrose-guides-picture-done folder and will replace
+      this file once it is ready.
+    -->
+    <section class="section under-dev">
       <h1>Wiki</h1>
-      <!-- Replace with a real intro line -->
-      <p class="page-intro">Our own quick reference for Arcane Legends — classes, mechanics, and terms, from a Blood Rose perspective.</p>
-    </section>
+      <p class="under-dev-status">Under Development</p>
 
-    <!-- ============ CLASSES ============ -->
-    <section id="classes" class="section reveal">
-      <h2>Classes</h2>
-      <!-- Cards built by js/wiki.js from js/data/wiki.js -->
-      <div class="goal-grid" id="class-grid"></div>
-    </section>
+      <blockquote class="under-dev-quote">
+        <p>&ldquo;Greatness comes for those who wait.&rdquo;</p>
+      </blockquote>
 
-    <!-- ============ MECHANICS ============ -->
-    <!-- This section is prose, not records, so it stays as plain HTML. -->
-    <section id="mechanics" class="section reveal">
-      <h2>Mechanics</h2>
-      <!-- Replace with real mechanic explanations -->
-      <p>Placeholder explanation of a core game mechanic.</p>
-      <p>Placeholder explanation of another core game mechanic.</p>
-    </section>
-
-    <!-- ============ GLOSSARY ============ -->
-    <section id="glossary" class="section reveal">
-      <h2>Glossary</h2>
-      <!-- Table built by js/wiki.js from js/data/wiki.js -->
-      <div id="glossary-table"></div>
+      <a href="index.html" class="btn btn-outline">Back to Home</a>
     </section>
 
   </main>
@@ -166,36 +154,18 @@
 
   <!--
     SCRIPTS — order matters.
-      1. utils.js   creates the shared BR object everything else reads
-      2. render.js  shared element builders
-      3. data/*.js  ALL content data loads on EVERY page, not just the page
-                    that displays it, so site-wide search can index the whole
-                    site from wherever you happen to be. Each file is tiny.
-      4. renderers  only this page has the mount points these look for; the
-                    others would find nothing, so they are not loaded here.
-      5. search     search-index.js (sections) then search-sources.js (the
-                    real content) then search.js, which reads both.
-      6. the rest   these SCAN the finished DOM, so they must come last —
-                    reveal.js in particular would miss any generated card
-                    and leave it permanently invisible.
+      utils.js / render.js  shared helpers everything else reads
+      data/officers.js      this page shows no content of its own, but
+                            site-wide search still indexes the roster
+      the rest              these scan the finished DOM, so they come last
+
+    This page is under development, so it loads no page data or renderers.
+    Both come back when the finished version replaces this file.
   -->
   <script src="js/utils.js"></script>
   <script src="js/render.js"></script>
-
-  <!-- Content data (all pages, for search) -->
-  <script src="js/data/events.js"></script>
   <script src="js/data/officers.js"></script>
-  <script src="js/data/stats.js"></script>
-  <script src="js/data/testimonials.js"></script>
-  <script src="js/data/prices.js"></script>
-  <script src="js/data/guides.js"></script>
-  <script src="js/data/gallery.js"></script>
-  <script src="js/data/wiki.js"></script>
 
-  <!-- This page's renderers -->
-  <script src="js/wiki.js"></script>
-
-  <!-- Site-wide behaviour -->
   <script src="js/nav.js"></script>
   <script src="js/search-index.js"></script>
   <script src="js/search-sources.js"></script>
