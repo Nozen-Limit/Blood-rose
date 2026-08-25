@@ -216,3 +216,26 @@
     animation: none;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   Link between the Events page and the Event History archive
+   -------------------------------------------------------------------------- */
+
+.timeline-history-link {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.timeline-history-link a {
+  color: var(--red-bright);
+}
+
+/* The Events page hides this until an archive actually exists, using the
+   HTML `hidden` attribute — which needs help here, since a stylesheet
+   setting display on the element would otherwise override it. */
+.timeline-history-link[hidden] {
+  display: none;
+}

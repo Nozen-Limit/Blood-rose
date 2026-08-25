@@ -46,11 +46,22 @@
   };
 
   /* --- A titled card with a paragraph. Used for goals-style grids:
-         guide builds and wiki class summaries.                          */
+         guide builds and wiki class summaries.
+
+     Content here now comes from an async Supabase fetch (see
+     js/data/*.js), so this card is usually built after js/reveal.js's own
+     one-time page-load scan already ran — without registering it by hand,
+     it would keep the .reveal CSS's opacity: 0 forever. BR.observeReveal
+     only exists once reveal.js has actually loaded and run, which by the
+     time any async .then() callback fires, it always has; the guard just
+     also keeps this safe for the (unlikely) case a page still calls this
+     synchronously before reveal.js runs, where the element is caught by
+     reveal.js's own initial scan instead. */
   BR.buildInfoCard = function (item) {
     var card = BR.el("div", "goal-card reveal");
     card.appendChild(BR.el("h3", null, item.title || ""));
     card.appendChild(BR.el("p", null, item.body || ""));
+    if (BR.observeReveal) BR.observeReveal(card);
     return card;
   };
 
@@ -91,22 +102,32 @@
   };
 
   /* --- A gallery image ---
-     Falls back to the dashed placeholder until a real `src` is supplied. */
+     Falls back to the dashed placeholder until a real `src` is supplied.
+     `caption` is the one text field officers fill in for a photo — it
+     does double duty as the visible subtitle under the image AND the alt
+     text screen readers get, rather than asking for two separate fields
+     that say the same thing. */
   BR.buildGalleryImage = function (item) {
     if (!item.src) {
-      var box = BR.el("div", "image-placeholder", item.caption || "Image placeholder");
+      var box = BR.el("div", "image-placeholder", "Image placeholder");
       box.setAttribute("aria-hidden", "true");
       return box;
     }
 
+    var figure = BR.el("figure", "gallery-item");
+
     var img = document.createElement("img");
     img.className = "gallery-img";
     img.src = item.src;
-    /* alt describes the picture for screen readers and shows if the file
-       is missing — never leave it empty on content images. */
-    img.alt = item.alt || item.caption || "";
+    img.alt = item.caption || "";
     img.loading = "lazy";
-    return img;
+    figure.appendChild(img);
+
+    if (item.caption) {
+      figure.appendChild(BR.el("figcaption", "gallery-caption", item.caption));
+    }
+
+    return figure;
   };
 
   /* --- A grid carousel for videos ---
@@ -344,11 +365,13 @@
   };
 
   /* --- Convenience: build a <section> shell with a heading ---
-     Used by the pages whose whole sections come from data.              */
+     Used by the pages whose whole sections come from data — same
+     BR.observeReveal note as BR.buildInfoCard above applies here. */
   BR.buildSection = function (id, heading) {
     var section = BR.el("section", "section reveal");
     if (id) section.id = id;
     section.appendChild(BR.el("h2", null, heading));
+    if (BR.observeReveal) BR.observeReveal(section);
     return section;
   };
 })(window.BR);

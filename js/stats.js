@@ -12,6 +12,7 @@
   var mount = document.getElementById("stat-strip");
   if (!mount) return;
 
+  function render() {
   var stats = (BR.data && BR.data.stats) || [];
   if (!stats.length) return;
 
@@ -59,4 +60,11 @@
   });
 
   mount.appendChild(fragment);
+  } // end render()
+
+  if (BR.dataReady && BR.dataReady.stats && typeof BR.dataReady.stats.then === "function") {
+    BR.dataReady.stats.then(render);
+  } else {
+    render();
+  }
 })(window.BR);

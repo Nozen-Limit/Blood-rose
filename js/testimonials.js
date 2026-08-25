@@ -12,6 +12,7 @@
   var mount = document.getElementById("testimonials");
   if (!mount) return;
 
+  function render() {
   var quotes = (BR.data && BR.data.testimonials) || [];
   if (!quotes.length) return;
 
@@ -39,4 +40,11 @@
     activeIndex = (activeIndex + 1) % nodes.length;
     nodes[activeIndex].classList.add("is-active");
   }, INTERVAL);
+  } // end render()
+
+  if (BR.dataReady && BR.dataReady.testimonials && typeof BR.dataReady.testimonials.then === "function") {
+    BR.dataReady.testimonials.then(render);
+  } else {
+    render();
+  }
 })(window.BR);

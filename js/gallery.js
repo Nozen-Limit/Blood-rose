@@ -2,6 +2,12 @@
    GALLERY  (gallery.html)
    Builds every section of the page from BR.data.gallery. Each section is
    either a grid of images or a grid of video cards, decided by its `type`.
+
+   Gallery data now loads from Supabase asynchronously (see
+   js/data/gallery.js), so everything below is wrapped in render() and only
+   actually runs once BR.dataReady.gallery resolves. If some future page
+   still provides the gallery synchronously instead, this falls back to
+   running immediately.
    ========================================================================== */
 
 (function (BR) {
@@ -10,6 +16,7 @@
   var mount = document.getElementById("gallery-sections");
   if (!mount) return;
 
+  function render() {
   var groups = (BR.data && BR.data.gallery) || [];
 
   if (!groups.length) {
@@ -37,4 +44,11 @@
   });
 
   mount.appendChild(fragment);
+  } // end render()
+
+  if (BR.dataReady && BR.dataReady.gallery && typeof BR.dataReady.gallery.then === "function") {
+    BR.dataReady.gallery.then(render);
+  } else {
+    render();
+  }
 })(window.BR);

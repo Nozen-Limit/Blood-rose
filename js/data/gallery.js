@@ -1,65 +1,24 @@
 /* ==========================================================================
-   GALLERY DATA
-   The whole gallery.html page is built from this list — headings included.
+   GALLERY DATA — now live from Supabase, not a hardcoded list.
 
-   ---------------------------------------------------------------------------
-   Each block is one section:
+   This used to be a plain array (see git history for the old version).
+   Officers editing the gallery through the admin app write directly to
+   the `gallery_sections` table; this file's only job now is fetching
+   that table and putting it where js/gallery.js already expects to find
+   it.
 
-     id     Link anchor, e.g. gallery.html#funny
-     title  Heading on the page
-     type   "images" or "videos"
-     items  What goes in it
-
-   IMAGES
-     { src: "images/gvg-win.jpg", alt: "Blood Rose after the GvG final" }
-     Leave `src` empty to keep the dashed placeholder box.
-     Always write `alt` — it describes the picture for anyone using a
-     screen reader, and shows if the file goes missing.
-
-   VIDEOS
-     { title: "...", youtubeId: "dQw4w9WgXcQ" }   embeds the player
-     { title: "...", url: "https://youtu.be/..." } plain link
-     Neither one set = placeholder box.
-   ---------------------------------------------------------------------------
+   BR.dataReady.gallery is a Promise that resolves once the fetch
+   completes. js/gallery.js waits for it before rendering, so it never
+   runs against an empty BR.data.gallery just because the network request
+   hasn't finished yet.
    ========================================================================== */
 
 window.BR = window.BR || {};
 window.BR.data = window.BR.data || {};
+window.BR.dataReady = window.BR.dataReady || {};
 
-window.BR.data.gallery = [
-
-  /* ---------- Replace with your real media ---------- */
-
-  {
-    id: "activities",
-    title: "Guild Activities",
-    type: "images",
-    items: [
-      { src: "", alt: "", caption: "Image placeholder" },
-      { src: "", alt: "", caption: "Image placeholder" },
-      { src: "", alt: "", caption: "Image placeholder" },
-      { src: "", alt: "", caption: "Image placeholder" }
-    ]
-  },
-
-  {
-    id: "funny",
-    title: "Funny Videos",
-    type: "videos",
-    items: [
-      { title: "Placeholder funny moment title", url: "" },
-      { title: "Placeholder funny moment title", url: "" }
-    ]
-  },
-
-  {
-    id: "serious",
-    title: "Serious Videos",
-    type: "videos",
-    items: [
-      { title: "Placeholder GvG highlight title", url: "" },
-      { title: "Placeholder GvG highlight title", url: "" }
-    ]
+window.BR.dataReady.gallery = BR.fetchTable("gallery_sections", "sort_order.asc").then(
+  function (rows) {
+    window.BR.data.gallery = rows;
   }
-
-];
+);

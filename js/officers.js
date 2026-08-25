@@ -18,6 +18,7 @@
   var gridMount = document.getElementById("officer-grid");
   if (!featuredMount && !gridMount) return;
 
+  function render() {
   var officers = (BR.data && BR.data.officers) || [];
 
   /* Grey silhouette drawn inline, so a missing photo still looks deliberate
@@ -54,28 +55,19 @@
     var body = BR.el("div", "officer-body");
     body.appendChild(BR.el("p", "officer-name", officer.name || ""));
     body.appendChild(BR.el("p", "officer-rank", officer.rank || ""));
-    body.appendChild(BR.el("p", "officer-note", officer.note || ""));
 
-    /* --- Panel: credentials and social links ---
+    /* --- Panel: social links ---
        Always built, even when empty, so every card responds to hover and
-       tap. An officer with nothing filled in yet shows a short placeholder
-       rather than opening a blank box. */
-    var details = officer.details || [];
+       tap the same way. An officer with no links yet shows a short
+       placeholder rather than opening a blank box. */
     var socialList = BR.buildSocialLinks(officer.socials);
     var panel = BR.el("div", "officer-details");
 
-    details.forEach(function (row) {
-      var p = BR.el("p");
-      p.appendChild(BR.el("strong", null, row.label + ":"));
-      p.appendChild(document.createTextNode(" " + (row.value || "")));
-      panel.appendChild(p);
-    });
-
-    if (socialList) panel.appendChild(socialList);
-
-    if (!details.length && !socialList) {
+    if (socialList) {
+      panel.appendChild(socialList);
+    } else {
       panel.appendChild(
-        BR.el("p", "officer-details-empty", "No details added yet.")
+        BR.el("p", "officer-details-empty", "No links added yet.")
       );
     }
 
@@ -109,7 +101,12 @@
   });
 
   if (featuredMount && guildMaster) {
-    featuredMount.appendChild(buildCard(guildMaster, true));
+    var featuredCard = buildCard(guildMaster, true);
+    featuredMount.appendChild(featuredCard);
+    /* Built after reveal.js's own page-load scan already ran (officer data
+       loads from Supabase, not synchronously) — register it by hand or it
+       stays at opacity: 0 forever. See js/reveal.js for why. */
+    if (BR.observeReveal) BR.observeReveal(featuredCard);
   }
 
   if (gridMount) {
@@ -127,5 +124,12 @@
     gridMount.appendChild(
       BR.buildCarousel(cards, 5, "officer-carousel-grid", "officers")
     );
+  }
+  } // end render()
+
+  if (BR.dataReady && BR.dataReady.officers && typeof BR.dataReady.officers.then === "function") {
+    BR.dataReady.officers.then(render);
+  } else {
+    render();
   }
 })(window.BR);

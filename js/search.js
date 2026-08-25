@@ -13,7 +13,6 @@
   var closeBtn = document.getElementById("search-close-btn");
   var input = document.getElementById("search-input");
   var resultsEl = document.getElementById("search-results");
-  var index = BR.searchIndex || [];
 
   /* Bail out quietly if the markup isn't on this page rather than throwing */
   if (!openBtn || !overlay || !input || !resultsEl) return;
@@ -166,7 +165,11 @@
       return;
     }
 
-    var matches = index
+    /* Read fresh each search, not cached at script-load time — the events/
+       officers/etc. entries in it are appended asynchronously by
+       js/search-sources.js once their Supabase fetches resolve, which is
+       almost always after this file has already finished running. */
+    var matches = (BR.searchIndex || [])
       .map(function (item) {
         return { item: item, score: scoreItem(item, tokens, query) };
       })

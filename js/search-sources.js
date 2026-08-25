@@ -12,11 +12,29 @@
    content means adding one block here and nothing else.
 
    Must load AFTER search-index.js and all js/data/*.js, and BEFORE search.js.
+
+   ---------------------------------------------------------------------------
+   WAITING FOR THE DATA
+   Every js/data/*.js file now fetches from Supabase instead of listing
+   content directly, so BR.data.events / .officers / etc. are empty at the
+   instant this script's top-level code runs — the network requests are
+   still in flight. Building entries immediately would silently index
+   nothing for any of it, forever (BR.searchIndex is a plain array, not
+   something that gets rebuilt later). Everything below waits on every
+   promise in BR.dataReady first.
+   ---------------------------------------------------------------------------
    ========================================================================== */
 
 (function (BR) {
   "use strict";
 
+  var dataReady = BR.dataReady || {};
+
+  Promise.all(
+    Object.keys(dataReady).map(function (key) { return dataReady[key]; })
+  ).then(buildEntries);
+
+  function buildEntries() {
   var data = BR.data || {};
   var entries = [];
 
@@ -53,15 +71,16 @@
       words(item.rank, item.note, detailText));
   });
 
-  /* --- Prices: one entry per row, linking to its own section --- */
+  /* --- Prices: one entry per item, linking to its own class section ---
+     Each row is [category, item name, price]. */
   (data.prices || []).forEach(function (group) {
     (group.rows || []).forEach(function (row) {
-      add(row[0], "Prices", "prices.html#" + group.id,
-        words(group.title, row.join(" ")));
+      add(row[1], "Prices", "prices.html#" + group.id,
+        words(group.title, row[0], row[2]));
     });
   });
 
-  /* --- Guides: build cards and videos --- */
+  /* --- Guides: build cards, videos, and procs/mechanics --- */
   if (data.guides) {
     (data.guides.builds || []).forEach(function (item) {
       add(item.title, "Guides", "guides.html#builds", item.body);
@@ -69,12 +88,15 @@
     (data.guides.videos || []).forEach(function (item) {
       add(item.title, "Guides", "guides.html#videos", "video guide youtube");
     });
+    (data.guides.mechanics || []).forEach(function (item) {
+      add(item.title, "Guides", "guides.html#procs", words("proc mechanic", item.body));
+    });
   }
 
   /* --- Gallery: video titles and image captions --- */
   (data.gallery || []).forEach(function (group) {
     (group.items || []).forEach(function (item) {
-      var label = item.title || item.caption || item.alt;
+      var label = item.title || item.caption;
       /* Skip empty image placeholders — nothing useful to find yet */
       if (!label || label === "Image placeholder") return;
       add(label, "Gallery", "gallery.html#" + group.id,
@@ -82,17 +104,15 @@
     });
   });
 
-  /* --- Wiki: class cards and glossary terms --- */
+  /* --- Wiki: class cards --- */
   if (data.wiki) {
     (data.wiki.classes || []).forEach(function (item) {
       add(item.title, "Wiki", "wiki.html#classes", item.body);
-    });
-    ((data.wiki.glossary && data.wiki.glossary.rows) || []).forEach(function (row) {
-      add(row[0], "Wiki", "wiki.html#glossary", row.join(" "));
     });
   }
 
   /* Append to the hand-written section entries rather than replacing them —
      searching "prices" should still find the Prices page itself. */
   BR.searchIndex = (BR.searchIndex || []).concat(entries);
+  } // end buildEntries()
 })(window.BR);

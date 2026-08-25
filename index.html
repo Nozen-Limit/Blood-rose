@@ -134,7 +134,7 @@
 
         <div class="hero-copy">
           <!-- Replace with the real guild tagline -->
-          <p class="tagline">Rising together, one battle at a time.</p>
+          <p class="tagline">Rising together</p>
 
           <!-- Filled by js/stats.js from js/data/stats.js -->
           <div class="stat-strip" id="stat-strip"></div>
@@ -259,25 +259,30 @@
     SCRIPTS — order matters.
       1. utils.js   creates the shared BR object everything else reads
       2. render.js  shared element builders
-      3. data/*.js  loaded before the renderers that read them
-      4. renderers  build this page content into the DOM
-      5. search     search-index.js then search-sources.js then search.js
-      6. the rest   these SCAN the finished DOM, so they come last —
+      3. data/*.js  ALL content data loads on EVERY page, not just the page
+                    that displays it, so site-wide search can index the whole
+                    site from wherever you happen to be. Each file is tiny.
+      4. renderers  only this page has the mount points these look for; the
+                    others would find nothing, so they are not loaded here.
+      5. search     search-index.js (sections) then search-sources.js (the
+                    real content) then search.js, which reads both.
+      6. the rest   these SCAN the finished DOM, so they must come last —
                     reveal.js in particular would miss any generated card
                     and leave it permanently invisible.
-
-    Only homepage data loads right now. The events/prices/guides/gallery/
-    wiki data files come back when those pages go live — loading them now
-    would put results in the search box that lead to under-development
-    pages with nothing on them.
   -->
   <script src="js/utils.js"></script>
   <script src="js/render.js"></script>
+  <script src="js/supabase-client.js"></script>
 
-  <!-- Content data -->
+  <!-- Content data (all pages, for search) -->
+  <script src="js/data/events.js"></script>
   <script src="js/data/officers.js"></script>
   <script src="js/data/stats.js"></script>
   <script src="js/data/testimonials.js"></script>
+  <script src="js/data/prices.js"></script>
+  <script src="js/data/guides.js"></script>
+  <script src="js/data/gallery.js"></script>
+  <script src="js/data/wiki.js"></script>
 
   <!-- This page's renderers -->
   <script src="js/stats.js"></script>

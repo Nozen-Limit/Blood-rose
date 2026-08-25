@@ -77,6 +77,99 @@
   background-color: var(--surface);
 }
 
+/* Groups items within a price section — e.g. "Shield", "Helm" — so members
+   can scan straight to the gear slot they're after instead of one long
+   undifferentiated list. */
+.price-category {
+  margin-top: 1.75rem;
+  margin-bottom: 0;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.price-category:first-of-type {
+  margin-top: 1.5rem;
+}
+
+/* Switches which class's prices are showing — see js/prices.js. Styled
+   like the site's other pill controls (nav-cta, btn) rather than a bare
+   native dropdown, but color-scheme: dark keeps the OS-drawn open menu
+   readable too, since that part can't be restyled with CSS. */
+.price-class-select {
+  display: block;
+  width: 100%;
+  max-width: 20rem;
+  margin: 0 auto 2rem;
+  padding: 0.7rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  color-scheme: dark;
+}
+
+.price-class-select:hover,
+.price-class-select:focus-visible {
+  border-color: var(--red);
+}
+
+/* --------------------------------------------------------------------------
+   Category picker — one card per category (Shield, Helm, ...) within the
+   selected class. Tapping a card reveals that category's items below the
+   grid instead of everything being shown stacked at once. See js/prices.js.
+   -------------------------------------------------------------------------- */
+
+.price-category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.price-category-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: var(--text);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.price-category-card:hover {
+  border-color: var(--red);
+  transform: translateY(-2px);
+}
+
+.price-category-card.is-active {
+  border-color: var(--red);
+  background-color: rgba(176, 27, 46, 0.12);
+}
+
+.price-category-card-name {
+  display: block;
+  font-weight: 700;
+}
+
+.price-category-card-count {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+.price-category-detail .price-category {
+  margin-top: 0;
+}
+
 
 /* --------------------------------------------------------------------------
    Video grid
@@ -155,14 +248,26 @@
   padding: 0.5rem;
 }
 
-/* A real photo. Same footprint as the placeholder above; object-fit crops
-   rather than squashing pictures that aren't 4:3. */
+/* A real photo, wrapped in a <figure> so an optional subtitle can sit
+   right under it. `margin: 0` cancels the browser's default figure
+   margin — without it every image would drift out of the grid gap. */
+.gallery-item {
+  margin: 0;
+}
+
 .gallery-img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
   border: 1px solid var(--border);
   border-radius: 6px;
+}
+
+.gallery-caption {
+  margin-top: 0.4rem;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  text-align: center;
 }
 
 
@@ -184,55 +289,4 @@
   .image-grid {
     grid-template-columns: repeat(4, 1fr);
   }
-}
-
-
-/* --------------------------------------------------------------------------
-   Under-development page
-
-   Used on the live site for pages that aren't finished yet. The full
-   versions are built in the bloodrose-guides-picture-done folder and
-   promoted over here one at a time as they're completed.
-   -------------------------------------------------------------------------- */
-
-.under-dev {
-  /* Fills most of the screen so the page doesn't look broken or empty —
-     a short line of text floating at the top reads like a bug, whereas a
-     centred block reads as deliberate. */
-  min-height: 60vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.under-dev h1 {
-  margin-bottom: 0.25rem;
-  font-size: 2.25rem;
-}
-
-.under-dev-status {
-  margin-bottom: 2rem;
-  color: var(--red-bright);
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
-.under-dev-quote {
-  max-width: 26rem;
-  margin: 0 0 2rem;
-  padding: 1.25rem 0 0;
-  /* Only a top rule, rather than the usual left border used elsewhere —
-     this block is centred, and a left border would look off-axis. */
-  border-top: 1px solid var(--border);
-}
-
-.under-dev-quote p {
-  margin: 0;
-  color: var(--text-dim);
-  font-style: italic;
-  font-size: 1.05rem;
 }
