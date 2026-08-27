@@ -34,10 +34,10 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.5rem 0.9rem;
-  background: transparent;
+  padding: 0.55rem 1.1rem;
+  background: rgba(255, 255, 255, .02);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 999px;
   color: var(--text-dim);
   font-size: 0.85rem;
   cursor: pointer;
@@ -78,15 +78,16 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text);
+  background: linear-gradient(180deg, var(--red-bright), var(--red));
+  border: none;
+  color: #fff;
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
+  box-shadow: 0 10px 26px -8px var(--red-glow);
   transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s,
-    border-color 0.2s ease, color 0.2s ease;
+    box-shadow 0.2s ease;
 }
 
 .back-to-top svg {
@@ -101,8 +102,7 @@
 }
 
 .back-to-top:hover {
-  border-color: var(--red);
-  color: var(--red-bright);
+  box-shadow: 0 14px 32px -6px var(--red-glow);
 }
 
 

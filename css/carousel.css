@@ -67,8 +67,9 @@
 }
 
 .carousel-arrow:hover {
-  border-color: var(--red);
+  border-color: var(--red-bright);
   color: var(--red-bright);
+  box-shadow: 0 8px 18px -8px var(--red-glow);
 }
 
 .carousel-prev {

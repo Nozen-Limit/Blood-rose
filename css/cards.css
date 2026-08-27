@@ -38,15 +38,16 @@
 .goal-card,
 .officer-card {
   position: relative;
-  background-color: var(--surface);
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--surface), var(--surface-2));
   border: 1px solid var(--border);
-  border-radius: 6px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  border-radius: 16px;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
 }
 
 .goal-card {
-  border-top: 3px solid var(--red);
-  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--border);
+  padding: 1.75rem 1.6rem;
 }
 
 .officer-card {
@@ -56,11 +57,39 @@
 
 .goal-card:hover,
 .officer-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--red);
-  box-shadow: 0 10px 24px rgba(176, 27, 46, 0.18);
+  transform: translateY(-5px);
+  border-color: var(--border-strong);
+  box-shadow: 0 20px 44px -20px rgba(0, 0, 0, .8);
   /* Cancels the reveal stagger below so hover reacts instantly */
   transition-delay: 0s;
+}
+
+.card-ico {
+  position: relative;
+  z-index: 1;
+  width: 3.1rem;
+  height: 3.1rem;
+  border-radius: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(224, 49, 59, .18), rgba(184, 29, 36, .06));
+  border: 1px solid var(--border-strong);
+  margin-bottom: 1.35rem;
+}
+
+.goal-card h3,
+.goal-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.card-ico svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke: var(--red-bright);
+  fill: none;
+  stroke-width: 1.6;
 }
 
 
@@ -72,28 +101,21 @@
 .officer-card::before {
   content: "";
   position: absolute;
-  top: -6px;
-  right: -6px;
-  width: 14px;
-  height: 14px;
-  background: radial-gradient(circle, var(--red) 0%, transparent 70%);
+  top: -40%;
+  right: -30%;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
-  opacity: 0.5;
+  background: radial-gradient(circle, var(--red-glow), transparent 70%);
+  filter: blur(20px);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
   pointer-events: none;
 }
 
-.goal-card::after,
-.officer-card::after {
-  content: "";
-  position: absolute;
-  top: -2px;
-  right: 10px;
-  width: 6px;
-  height: 6px;
-  background-color: var(--red);
-  border-radius: 50%;
-  opacity: 0.35;
-  pointer-events: none;
+.goal-card:hover::before,
+.officer-card:hover::before {
+  opacity: 1;
 }
 
 
@@ -116,14 +138,17 @@
    -------------------------------------------------------------------------- */
 
 .officer-avatar {
+  position: relative;
+  z-index: 1;
   width: 84px;
   height: 84px;
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto 1rem;
-  border: 2px solid var(--border);
+  border: 2px solid var(--border-strong);
+  box-shadow: 0 0 0 5px rgba(224, 49, 59, .06);
   object-fit: cover;
-  transition: border-color 0.25s ease, transform 0.25s ease;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .officer-card:hover .officer-avatar {
@@ -131,7 +156,13 @@
   transform: scale(1.05);
 }
 
+.officer-body {
+  position: relative;
+  z-index: 1;
+}
+
 .officer-name {
+  font-family: var(--font-display);
   font-weight: 700;
   color: var(--text);
   margin-bottom: 0.15em;
@@ -161,8 +192,8 @@
 }
 
 .officer-card-featured {
-  border-color: var(--red);
-  border-top: 3px solid var(--red);
+  background: linear-gradient(120deg, var(--surface-2), var(--surface));
+  border-color: var(--border-strong);
 }
 
 /* Wide enough to put the avatar beside the text instead of above it */

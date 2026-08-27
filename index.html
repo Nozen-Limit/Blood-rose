@@ -5,10 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blood Rose | Arcane Legends Guild</title>
   <meta name="description" content="Blood Rose is a guild in Arcane Legends. Join our Discord, meet our officers, and see what we're about.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%2312100F'/%3E%3Cpath d='M16 6c-4 5-7 9-7 13a7 7 0 0 0 14 0c0-4-3-8-7-13z' fill='%23E24B4A'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%230a0607'/%3E%3Cpath d='M16 6c-4 5-7 9-7 13a7 7 0 0 0 14 0c0-4-3-8-7-13z' fill='%23e0313b'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
+  <!-- Landing-page-only decoration (ember particles, falling petals) -->
+  <link rel="stylesheet" href="css/home-fx.css">
 </head>
 <body>
+
+  <!-- Drifting embers behind the hero — drawn by js/home-fx.js -->
+  <canvas id="embers" aria-hidden="true"></canvas>
 
   <!-- Fixed ambient background: stays pinned behind the whole page while
        content scrolls over it, with the blobs drifting via js/parallax.js -->
@@ -58,9 +66,26 @@
   <header class="site-header">
     <nav class="nav" aria-label="Primary">
       <a href="index.html" class="nav-brand">
-        <svg class="nav-emblem" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M12 2c-2.2 1.6-3.5 3.4-3.5 5.4 0 1.8 1 3.1 2.3 3.6-1.7.2-3.3 1.4-3.3 3.4 0 2.1 1.9 3.6 4.5 3.6s4.5-1.5 4.5-3.6c0-2-1.6-3.2-3.3-3.4 1.3-.5 2.3-1.8 2.3-3.6 0-2-1.3-3.8-3.5-5.4z" fill="var(--red-bright)"/>
-          <line x1="12" y1="18" x2="12" y2="22" stroke="var(--red)" stroke-width="1.5" stroke-linecap="round"/>
+        <svg class="nav-emblem" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <g transform="translate(16 13.5)">
+            <g fill="#8f141d">
+              <path d="M0 -1C-5.5 -3 -5 -10 0 -11.5C5 -10 5.5 -3 0 -1Z" transform="rotate(36)"/>
+              <path d="M0 -1C-5.5 -3 -5 -10 0 -11.5C5 -10 5.5 -3 0 -1Z" transform="rotate(108)"/>
+              <path d="M0 -1C-5.5 -3 -5 -10 0 -11.5C5 -10 5.5 -3 0 -1Z" transform="rotate(180)"/>
+              <path d="M0 -1C-5.5 -3 -5 -10 0 -11.5C5 -10 5.5 -3 0 -1Z" transform="rotate(252)"/>
+              <path d="M0 -1C-5.5 -3 -5 -10 0 -11.5C5 -10 5.5 -3 0 -1Z" transform="rotate(324)"/>
+            </g>
+            <g fill="var(--red-bright)">
+              <path d="M0 -1C-5.5 -3 -5 -9.5 0 -11C5 -9.5 5.5 -3 0 -1Z"/>
+              <path d="M0 -1C-5.5 -3 -5 -9.5 0 -11C5 -9.5 5.5 -3 0 -1Z" transform="rotate(72)"/>
+              <path d="M0 -1C-5.5 -3 -5 -9.5 0 -11C5 -9.5 5.5 -3 0 -1Z" transform="rotate(144)"/>
+              <path d="M0 -1C-5.5 -3 -5 -9.5 0 -11C5 -9.5 5.5 -3 0 -1Z" transform="rotate(216)"/>
+              <path d="M0 -1C-5.5 -3 -5 -9.5 0 -11C5 -9.5 5.5 -3 0 -1Z" transform="rotate(288)"/>
+            </g>
+            <circle r="5.4" fill="var(--red-bright)"/>
+          </g>
+          <path d="M16 20.5C16 23.5 15 26.5 12.8 28.5 12.3 25.5 13.4 22.5 16 20.5Z" fill="#7a1520"/>
+          <path d="M16 20.5C16 23.5 17 26.5 19.2 28.5 19.7 25.5 18.6 22.5 16 20.5Z" fill="#93192a"/>
         </svg>
         Blood&nbsp;Rose
       </a>
@@ -123,10 +148,13 @@
       <!-- Decorative background image: alt="" on purpose. The guild name
            and tagline already say everything in real text below, so a
            screen reader doesn't need this described. -->
-      <img class="hero-bg" src="images/hero-bg.jpg" alt="" loading="eager">
+      <img class="hero-bg" src="images/Blood_Rose_Landing.png" alt="" loading="eager"
+           onload="this.classList.add('is-loaded')">
       <div class="hero-overlay" aria-hidden="true"></div>
 
       <div class="hero-bottom">
+        <span class="eyebrow">Arcane Legends &middot; Guild</span>
+
         <h1 class="hero-title">
           <span class="hero-word">Blood</span>
           <span class="hero-word">Rose</span>
@@ -148,33 +176,50 @@
           </a>
         </div>
       </div>
+
+      <a href="#story" class="scroll-cue" aria-label="Scroll to Our Story">
+        <span class="mouse" aria-hidden="true"></span>
+        Scroll
+      </a>
     </section>
 
     <!-- ============ OUR STORY ============ -->
-    <section id="story" class="section reveal">
-      <h2>Our Story</h2>
-      <p>
-        Blood Rose is a guild built on what made the old Arcane Legends days
-        work: communication, knowledge, and hard work. Our leadership fully
-        understands the game's mechanics and is always ready to teach and
-        help members progress their characters.
-      </p>
-      <p>
-        Blood Rose was founded by a small group who wanted to create a place
-        where everyone — new and old members alike — could get the same help
-        and guidance we once received on our way to end-game content. That's
-        why there are no requirements to join: everyone is welcome, and
-        every level gets the same help, equally.
-      </p>
-      <p>
-        Hard work pays off. Both leadership and members work constantly to
-        keep the guild healthy, supportive, and free of drama — and that's
-        what took us to a top 2 leaderboard position in under a year, with
-        more than 70 members online daily.
-      </p>
+    <section id="story" class="section">
+      <div class="story-grid">
+        <div class="story-emblem reveal">
+          <div class="story-ring story-ring-1" aria-hidden="true"></div>
+          <div class="story-ring story-ring-2" aria-hidden="true"></div>
+          <div class="story-photo">
+            <img src="images/Blood_Rose_Landing.png" alt="Blood Rose emblem">
+          </div>
+        </div>
 
-      <!-- Filled by js/testimonials.js from js/data/testimonials.js -->
-      <div class="testimonial" id="testimonials" aria-live="polite"></div>
+        <div class="story-copy reveal">
+          <h2>Our Story</h2>
+          <p>
+            Blood Rose is a guild built on what made the old Arcane Legends days
+            work: communication, knowledge, and hard work. Our leadership fully
+            understands the game's mechanics and is always ready to teach and
+            help members progress their characters.
+          </p>
+          <p>
+            Blood Rose was founded by a small group who wanted to create a place
+            where everyone — new and old members alike — could get the same help
+            and guidance we once received on our way to end-game content. That's
+            why there are no requirements to join: everyone is welcome, and
+            every level gets the same help, equally.
+          </p>
+          <p>
+            Hard work pays off. Both leadership and members work constantly to
+            keep the guild healthy, supportive, and free of drama — and that's
+            what took us to a top 2 leaderboard position in under a year, with
+            more than 70 members online daily.
+          </p>
+
+          <!-- Filled by js/testimonials.js from js/data/testimonials.js -->
+          <div class="testimonial" id="testimonials" aria-live="polite"></div>
+        </div>
+      </div>
     </section>
 
     <!-- ============ OUR GOALS ============ -->
@@ -185,26 +230,31 @@
       <div class="goal-grid goal-grid-pyramid">
 
         <div class="goal-card reveal">
+          <div class="card-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-9.5-8.5C1 9 3 5 6.5 5 9 5 12 8 12 8s3-3 5.5-3C21 5 23 9 21.5 12.5 19 16.65 12 21 12 21z"/></svg></div>
           <h3>Healthy &amp; Supportive</h3>
           <p>A helpful, drama-free environment for every member.</p>
         </div>
 
         <div class="goal-card reveal">
+          <div class="card-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></div>
           <h3>A Home for Every Level</h3>
           <p>Enough range across the roster that everyone has a party to team up with and progress.</p>
         </div>
 
         <div class="goal-card reveal">
+          <div class="card-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M5 8l7-5 7 5"/><path d="M5 8v8l7 5 7-5V8"/></svg></div>
           <h3>Builds &amp; Market Guidance</h3>
           <p>Assistance with builds and market prices whenever you need it.</p>
         </div>
 
         <div class="goal-card reveal">
+          <div class="card-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7S9 2 6 4s1 3 6 3zM12 7s3-5 6-3-1 3-6 3z"/></svg></div>
           <h3>Events &amp; Giveaways</h3>
           <p>Consistent weekly and monthly events, spontaneous giveaways, and quiz games with generous rewards.</p>
         </div>
 
         <div class="goal-card reveal">
+          <div class="card-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
           <h3>A Place to Call Home</h3>
           <p>Creating a memorable place that people actually want to stick around for.</p>
         </div>
@@ -299,5 +349,6 @@
   <script defer src="js/clipboard.js"></script>
   <script defer src="js/floating-ui.js"></script>
   <script defer src="js/ripple.js"></script>
+  <script defer src="js/home-fx.js"></script>
 </body>
 </html>

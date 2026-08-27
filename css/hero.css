@@ -8,11 +8,9 @@
 .hero {
   position: relative;
   overflow: hidden;
-  /* Fills the screen below the sticky nav, on every device — no separate
-     breakpoints needed since this is relative to whatever viewport it's in */
-  min-height: calc(100vh - var(--nav-height));
+  min-height: 100vh;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 
 
@@ -28,24 +26,34 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 78% center;
+  opacity: 0;
+  transition: opacity 1.4s var(--ease);
+  animation: hero-drift 22s ease-in-out infinite alternate;
 }
 
-/* Darkens toward the bottom so the title stays readable no matter what
-   ends up behind it — a bright screenshot would otherwise wash the text out */
+.hero-bg.is-loaded {
+  opacity: 1;
+}
+
+@keyframes hero-drift {
+  from { transform: scale(1.04); }
+  to   { transform: scale(1.1); }
+}
+
+/* Darkens from the left (where the title sits) toward transparent on the
+   right (where the rose shows through), plus a soft fade top and bottom */
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(18, 16, 15, 0.15) 0%,
-    rgba(18, 16, 15, 0.55) 60%,
-    rgba(18, 16, 15, 0.9) 100%
-  );
+  background:
+    linear-gradient(90deg, var(--bg) 8%, rgba(10, 6, 7, .72) 34%, rgba(10, 6, 7, .25) 58%, transparent 74%),
+    linear-gradient(180deg, rgba(10, 6, 7, .35) 0%, transparent 30%, transparent 60%, var(--bg) 99%);
 }
 
 
 /* --------------------------------------------------------------------------
-   Content — pinned to the bottom, above the overlay
+   Content — vertically centered, above the overlay
    -------------------------------------------------------------------------- */
 
 .hero-bottom {
@@ -54,21 +62,47 @@
   width: 100%;
   max-width: var(--container-width);
   margin: 0 auto;
-  padding: 0 1.25rem 2.5rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: end;
-  gap: 1.5rem;
+  padding: calc(var(--nav-height) + 1.5rem) 1.25rem 3rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--red-bright);
+  margin-bottom: 1.25rem;
+  opacity: 0;
+  animation: hero-rise 0.9s var(--ease) 0.1s forwards;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 2.1rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--red-bright), transparent);
+}
+
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
 }
 
 .hero-title {
   margin: 0;
-  color: var(--text);
   line-height: 0.95;
+  letter-spacing: 1px;
   /* clamp(min, preferred, max) scales with the viewport instead of jumping
      between fixed sizes at breakpoints — the giant-title look from the
      reference, without a media query for every screen width */
-  font-size: clamp(3rem, 14vw, 8rem);
+  font-size: clamp(3rem, 12vw, 7.5rem);
+  background: linear-gradient(180deg, #fff 8%, var(--text) 38%, #c98d92 78%, #8a2831 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .hero-word {
@@ -93,7 +127,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.25rem;
+  gap: 1.5rem;
+  margin-top: 1.25rem;
   /* Fades up after the title words, same easing, later delay */
   opacity: 0;
   transform: translateY(0.6em);
@@ -104,12 +139,14 @@
 .tagline {
   margin: 0;
   color: var(--text-dim);
-  font-size: 1.1rem;
+  font-weight: 300;
+  font-size: clamp(1rem, 2vw, 1.3rem);
 }
 
 
 /* --------------------------------------------------------------------------
-   Stat strip
+   Stat strip — however many stats exist in Supabase, laid out with a
+   divider between each so it reads as one connected strip
    -------------------------------------------------------------------------- */
 
 .stat-strip {
@@ -123,22 +160,33 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  padding-right: 1.75rem;
+  border-right: 1px solid var(--border-strong);
+}
+
+.stat-item:last-child {
+  padding-right: 0;
+  border-right: none;
 }
 
 .stat-value {
-  font-size: 1.5rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.8vw, 2.25rem);
   font-weight: 700;
-  color: var(--red-bright);
+  background: linear-gradient(180deg, #fff, #c98d92);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   /* Fixed-width digits so the number doesn't jitter while counting up */
   font-variant-numeric: tabular-nums;
 }
 
 .stat-label {
-  margin-top: 0.15rem;
-  font-size: 0.75rem;
+  margin-top: 0.3rem;
+  font-size: 0.7rem;
   color: var(--text-dim);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.1em;
 }
 
 
@@ -164,7 +212,7 @@
   gap: 1rem;
   text-decoration: none;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(226, 75, 74, 0.35);
+  box-shadow: 0 10px 26px -6px var(--red-glow);
 }
 
 .btn-pill-icon {
@@ -190,6 +238,165 @@
 
 
 /* --------------------------------------------------------------------------
+   Scroll cue — small hint at the bottom of the hero, hidden once scrolled
+   past (see js/nav.js's is-scrolled toggle is separate; this just fades
+   with the hero itself since it's positioned inside it)
+   -------------------------------------------------------------------------- */
+
+.scroll-cue {
+  position: absolute;
+  z-index: 1;
+  bottom: 1.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--text-dim-2);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: hero-rise 1s var(--ease) 1s forwards;
+}
+
+.scroll-cue:hover {
+  color: var(--text-dim);
+  text-decoration: none;
+}
+
+.scroll-cue .mouse {
+  width: 1.35rem;
+  height: 2.1rem;
+  border: 1.5px solid var(--text-dim-2);
+  border-radius: 0.75rem;
+  position: relative;
+}
+
+.scroll-cue .mouse::after {
+  content: "";
+  position: absolute;
+  top: 0.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 6px;
+  background-color: var(--red-bright);
+  border-radius: 2px;
+  animation: scroll-wheel 1.6s infinite;
+}
+
+@keyframes scroll-wheel {
+  0%          { opacity: 0; transform: translate(-50%, 0); }
+  40%         { opacity: 1; }
+  80%, 100%   { opacity: 0; transform: translate(-50%, 10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue,
+  .scroll-cue .mouse::after {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Our Story — circular emblem photo with two slow-spinning decorative rings
+   -------------------------------------------------------------------------- */
+
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.story-emblem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+}
+
+.story-ring {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+}
+
+.story-ring-1 {
+  width: 280px;
+  height: 280px;
+  animation: story-spin 40s linear infinite;
+}
+
+.story-ring-2 {
+  width: 220px;
+  height: 220px;
+  border-style: dashed;
+  border-color: var(--border);
+  animation: story-spin 30s linear infinite reverse;
+}
+
+@keyframes story-spin {
+  to { transform: rotate(360deg); }
+}
+
+.story-photo {
+  position: relative;
+  z-index: 1;
+  width: min(70%, 230px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--border-strong), 0 30px 70px -22px rgba(0, 0, 0, .9);
+}
+
+.story-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 70% 40%;
+}
+
+/* Fades the photo's edge into the page so it reads embedded, not pasted */
+.story-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle at 52% 45%, transparent 45%, rgba(10, 6, 7, .55) 82%, rgba(10, 6, 7, .96) 100%);
+}
+
+@media (min-width: 860px) {
+  .story-grid {
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 3.5rem;
+  }
+
+  .story-emblem {
+    min-height: 340px;
+  }
+
+  .story-ring-1 { width: 340px; height: 340px; }
+  .story-ring-2 { width: 260px; height: 260px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-ring-1,
+  .story-ring-2 {
+    animation: none;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
    Sub-page hero (events / guides / prices / gallery / wiki) — unchanged
    -------------------------------------------------------------------------- */
 
@@ -211,25 +418,24 @@
 }
 
 
-/* --------------------------------------------------------------------------
-   Desktop: title and copy sit side by side instead of stacked
-   -------------------------------------------------------------------------- */
-
 @media (min-width: 800px) {
   .hero-bottom {
-    grid-template-columns: 2fr 1fr;
-    gap: 2.5rem;
-    padding: 0 2rem 3.5rem;
+    padding: calc(var(--nav-height) + 1.5rem) 2rem 3.5rem;
   }
 }
 
 
 @media (prefers-reduced-motion: reduce) {
   .hero-word,
-  .hero-copy {
+  .hero-copy,
+  .eyebrow {
     animation: none;
     opacity: 1;
     transform: none;
+  }
+
+  .hero-bg {
+    animation: none;
   }
 
   .btn-pill:hover {
