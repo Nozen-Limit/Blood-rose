@@ -6,6 +6,21 @@
   <title>Blood Rose | Arcane Legends Guild</title>
   <meta name="description" content="Blood Rose is a guild in Arcane Legends. Join our Discord, meet our officers, and see what we're about.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%230a0607'/%3E%3Cpath d='M16 6c-4 5-7 9-7 13a7 7 0 0 0 14 0c0-4-3-8-7-13z' fill='%23e0313b'/%3E%3C/svg%3E">
+
+  <!-- Social/link previews: what Discord, Facebook, etc. show when this
+       page's URL is pasted into a chat. og-cover.jpg is a 1200x630 crop,
+       the size those services expect. theme-color tints the accent bar on
+       a Discord embed. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Blood Rose">
+  <meta property="og:title" content="Blood Rose | Arcane Legends Guild">
+  <meta property="og:description" content="Blood Rose is a guild in Arcane Legends. Join our Discord, meet our officers, and see what we're about.">
+  <meta property="og:image" content="https://blood-rose-five.vercel.app/images/og-cover.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://blood-rose-five.vercel.app/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#e0313b">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -148,7 +163,7 @@
       <!-- Decorative background image: alt="" on purpose. The guild name
            and tagline already say everything in real text below, so a
            screen reader doesn't need this described. -->
-      <img class="hero-bg" src="images/Blood_Rose_Landing.png" alt="" loading="eager"
+      <img class="hero-bg" src="images/hero-rose.webp" alt="" loading="eager"
            onload="this.classList.add('is-loaded')">
       <div class="hero-overlay" aria-hidden="true"></div>
 
@@ -190,7 +205,7 @@
           <div class="story-ring story-ring-1" aria-hidden="true"></div>
           <div class="story-ring story-ring-2" aria-hidden="true"></div>
           <div class="story-photo">
-            <img src="images/Blood_Rose_Landing.png" alt="Blood Rose emblem">
+            <img src="images/emblem.webp" alt="Blood Rose emblem" loading="lazy" width="560" height="560">
           </div>
         </div>
 
@@ -290,8 +305,6 @@
         <span class="copy-link-label">Copy link</span>
       </button>
     </div>
-    <!-- Replace with actual last-updated date -->
-    <p class="last-updated">Last updated: Month Year</p>
   </footer>
 
   <!-- Floating back-to-top button, shown after scrolling past the hero -->

@@ -41,14 +41,29 @@
   to   { transform: scale(1.1); }
 }
 
-/* Darkens from the left (where the title sits) toward transparent on the
-   right (where the rose shows through), plus a soft fade top and bottom */
+/* Mobile first: the rose fills the whole screen at this width, so the text
+   needs a straight vertical scrim under it rather than the desktop's
+   side-to-side one — otherwise the tagline sits directly on the petals. */
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(90deg, var(--bg) 8%, rgba(10, 6, 7, .72) 34%, rgba(10, 6, 7, .25) 58%, transparent 74%),
-    linear-gradient(180deg, rgba(10, 6, 7, .35) 0%, transparent 30%, transparent 60%, var(--bg) 99%);
+  background: linear-gradient(
+    180deg,
+    rgba(10, 6, 7, .55) 0%,
+    rgba(10, 6, 7, .45) 35%,
+    rgba(10, 6, 7, .82) 72%,
+    var(--bg) 100%
+  );
+}
+
+/* Desktop: the rose sits to the right and the copy to the left, so darken
+   horizontally instead and let the flower show through cleanly. */
+@media (min-width: 800px) {
+  .hero-overlay {
+    background:
+      linear-gradient(90deg, var(--bg) 8%, rgba(10, 6, 7, .72) 34%, rgba(10, 6, 7, .25) 58%, transparent 74%),
+      linear-gradient(180deg, rgba(10, 6, 7, .35) 0%, transparent 30%, transparent 60%, var(--bg) 99%);
+  }
 }
 
 
@@ -99,14 +114,19 @@
      between fixed sizes at breakpoints — the giant-title look from the
      reference, without a media query for every screen width */
   font-size: clamp(3rem, 12vw, 7.5rem);
+}
+
+/* The gradient lives HERE, not on .hero-title, and that placement is load
+   bearing. These spans are inline-block, so they paint their own boxes —
+   a background-clip:text gradient set on the parent h1 never reaches them,
+   and they'd just inherit `color: transparent` and render as invisible
+   text. Each word carrying its own gradient is what actually shows. */
+.hero-word {
+  display: inline-block;
   background: linear-gradient(180deg, #fff 8%, var(--text) 38%, #c98d92 78%, #8a2831 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-}
-
-.hero-word {
-  display: inline-block;
   opacity: 0;
   transform: translateY(0.3em);
   animation: hero-word-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -400,10 +420,12 @@
    Sub-page hero (events / guides / prices / gallery / wiki) — unchanged
    -------------------------------------------------------------------------- */
 
+/* Top padding clears the drip band (background.css), which hangs to about
+   2.4x the nav height — without this the deepest drips crowd the heading. */
 .page-hero {
   max-width: var(--container-width);
   margin: 0 auto;
-  padding: 3rem 1.25rem 1rem;
+  padding: 5.5rem 1.25rem 1rem;
   text-align: center;
 }
 

@@ -60,14 +60,20 @@
    hanging below the nav — a signature accent, not a flat block of red.
    -------------------------------------------------------------------------- */
 
+/* Height is deliberately well over the nav's 3.75rem. The header hides
+   everything above its own bottom edge, so if the band is only a little
+   taller than the nav, all that shows is the severed bottom tips of the
+   longest drips — they read as random red blobs, not drips. Sizing it to
+   roughly 3x the nav height leaves enough of each drip visible, including
+   where it joins the band, for the shape to make sense. */
 .bg-drip {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 110px;
+  height: calc(var(--nav-height) * 2.4);
   display: block;
-  opacity: 0.8;
+  opacity: 0.55;
 }
 
 .bg-drop {

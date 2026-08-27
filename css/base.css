@@ -101,3 +101,11 @@ p {
   margin: 0 auto;
   padding: 3rem 1.25rem;
 }
+
+/* Pages without a .page-hero (e.g. guides.html) open straight onto a
+   section, which would otherwise start underneath the drip band hanging
+   from the nav. Matches .section only, so index.html's full-bleed .hero
+   and any page leading with .page-hero are both left alone. */
+main > .section:first-child {
+  padding-top: 5.5rem;
+}

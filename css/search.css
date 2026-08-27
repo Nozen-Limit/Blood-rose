@@ -58,6 +58,14 @@
   outline: none;
 }
 
+/* Chrome draws its own blue clear-X inside type="search", which lands right
+   next to our own close button and looks like a second, foreign control.
+   This hides it; the panel's × already does the job. */
+.search-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 .search-close-btn {
   background: transparent;
   border: none;
