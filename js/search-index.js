@@ -28,16 +28,9 @@ window.BR.searchIndex = [
   { title: "Procs & Mechanics", section: "Guides", url: "guides.html#procs", keywords: "proc mechanics how to proc" },
   { title: "Video Guides", section: "Guides", url: "guides.html#videos", keywords: "youtube video tutorial how to" },
 
-  { title: "Warrior Prices", section: "Prices", url: "prices.html#warrior", keywords: "price warrior shield blade chain gear cost" },
-  { title: "Rogue Prices", section: "Prices", url: "prices.html#rogue", keywords: "price rogue daggers bow chakram gear cost" },
-  { title: "Sorcerer Prices", section: "Prices", url: "prices.html#sorcerer", keywords: "price sorcerer gun staff orb gear cost" },
-
   { title: "Guild Activities", section: "Gallery", url: "gallery.html#activities", keywords: "photos pictures screenshots guild activity" },
   { title: "Funny Videos", section: "Gallery", url: "gallery.html#funny", keywords: "funny videos guild clips" },
   { title: "Serious Videos", section: "Gallery", url: "gallery.html#serious", keywords: "serious videos guild highlights" },
-
-  { title: "Classes", section: "Wiki", url: "wiki.html#classes", keywords: "warrior rogue sorcerer class reference" },
-  { title: "Mechanics", section: "Wiki", url: "wiki.html#mechanics", keywords: "mechanics game systems reference" },
 
   // Replace this URL with the real Discord invite when you have it
   { title: "Join our Discord", section: "Discord", url: "https://discord.gg/PbFs4eXEv4", keywords: "discord invite join chat link" }

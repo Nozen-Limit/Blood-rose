@@ -4,8 +4,8 @@
    them to the list from js/search-index.js.
 
    Why this exists: search-index.js only lists SECTIONS ("Video Guides",
-   "Prices"). This file indexes what's actually IN those sections — every
-   event, officer, video, price row, class and glossary term — so searching
+   "Guides"). This file indexes what's actually IN those sections — every
+   event, officer, video and guide — so searching
    for a specific thing finds the thing, not just the page it lives on.
 
    It reads whatever data files happen to be loaded, so adding a new kind of
@@ -71,15 +71,6 @@
       words(item.rank, item.note, detailText));
   });
 
-  /* --- Prices: one entry per item, linking to its own class section ---
-     Each row is [category, item name, price]. */
-  (data.prices || []).forEach(function (group) {
-    (group.rows || []).forEach(function (row) {
-      add(row[1], "Prices", "prices.html#" + group.id,
-        words(group.title, row[0], row[2]));
-    });
-  });
-
   /* --- Guides: build cards, videos, and procs/mechanics --- */
   if (data.guides) {
     (data.guides.builds || []).forEach(function (item) {
@@ -104,15 +95,8 @@
     });
   });
 
-  /* --- Wiki: class cards --- */
-  if (data.wiki) {
-    (data.wiki.classes || []).forEach(function (item) {
-      add(item.title, "Wiki", "wiki.html#classes", item.body);
-    });
-  }
-
   /* Append to the hand-written section entries rather than replacing them —
-     searching "prices" should still find the Prices page itself. */
+     searching "guides" should still find the Guides page itself. */
   BR.searchIndex = (BR.searchIndex || []).concat(entries);
   } // end buildEntries()
 })(window.BR);

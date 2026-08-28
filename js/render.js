@@ -46,7 +46,7 @@
   };
 
   /* --- A titled card with a paragraph. Used for goals-style grids:
-         guide builds and wiki class summaries.
+         guide builds and procs/mechanics writeups.
 
      Content here now comes from an async Supabase fetch (see
      js/data/*.js), so this card is usually built after js/reveal.js's own
