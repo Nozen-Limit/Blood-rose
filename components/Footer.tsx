@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { DISCORD_INVITE } from "@/lib/site";
+import { useDiscordInvite } from "./SiteSettings";
 
 /* Copy-to-clipboard with the same fallback the static site's clipboard.js
    carried: the modern API is unavailable on non-https origins, so the old
@@ -29,19 +29,20 @@ function copyText(text: string): Promise<void> {
 }
 
 export default function Footer() {
+  const discordInvite = useDiscordInvite();
   const [copied, setCopied] = useState(false);
 
   return (
     <footer className="site-footer">
       <div className="footer-discord">
-        <a href={DISCORD_INVITE} className="btn btn-outline">
+        <a href={discordInvite} className="btn btn-outline">
           Join our Discord
         </a>
         <button
           type="button"
           className={`copy-link-btn${copied ? " is-copied" : ""}`}
           onClick={() => {
-            copyText(DISCORD_INVITE).then(
+            copyText(discordInvite).then(
               () => {
                 setCopied(true);
                 setTimeout(() => setCopied(false), 1500);

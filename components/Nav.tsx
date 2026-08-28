@@ -16,10 +16,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { DISCORD_INVITE, NAV_LINKS } from "@/lib/site";
+import { NAV_LINKS } from "@/lib/site";
+import { useDiscordInvite } from "./SiteSettings";
 import { useOnScroll } from "@/lib/hooks";
 
 export default function Nav() {
+  const discordInvite = useDiscordInvite();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -77,7 +79,7 @@ export default function Nav() {
               </li>
             ))}
             <li>
-              <a href={DISCORD_INVITE} className="nav-cta" onClick={() => setOpen(false)}>
+              <a href={discordInvite} className="nav-cta" onClick={() => setOpen(false)}>
                 Discord
               </a>
             </li>

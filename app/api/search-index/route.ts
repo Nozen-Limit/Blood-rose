@@ -10,17 +10,17 @@
    ========================================================================== */
 
 import { NextResponse } from "next/server";
-import { SECTION_ENTRIES, type SearchEntry } from "@/lib/search";
+import { sectionEntries, type SearchEntry } from "@/lib/search";
 import {
-  getEvents, getOfficers, getGuides, getGallery,
+  getEvents, getOfficers, getGuides, getGallery, getDiscordInvite,
 } from "@/lib/data";
 
 /** Joins whatever it's given into one keyword string, skipping empties. */
 const words = (...parts: unknown[]) => parts.filter(Boolean).join(" ");
 
 export async function GET() {
-  const [events, officers, guides, gallery] = await Promise.all([
-    getEvents(), getOfficers(), getGuides(), getGallery(),
+  const [events, officers, guides, gallery, discordInvite] = await Promise.all([
+    getEvents(), getOfficers(), getGuides(), getGallery(), getDiscordInvite(),
   ]);
 
   const entries: SearchEntry[] = [];
@@ -60,5 +60,5 @@ export async function GET() {
 
   /* Section entries first so a search for "events" still surfaces the page
      itself alongside the individual items on it. */
-  return NextResponse.json([...SECTION_ENTRIES, ...entries]);
+  return NextResponse.json([...sectionEntries(discordInvite), ...entries]);
 }

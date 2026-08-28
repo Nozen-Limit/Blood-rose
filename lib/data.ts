@@ -15,6 +15,7 @@ import type {
   Officer, GuildEvent, GuideItem, GallerySection,
   Stat, Testimonial, Guides
 } from "./types";
+import { DISCORD_INVITE } from "./site";
 
 const URL_BASE = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -70,3 +71,15 @@ export async function getGuides(): Promise<Guides> {
   };
 }
 
+
+/**
+ * The single settings row, edited from the admin's Settings page.
+ *
+ * Falls back to the compiled-in invite if the row is missing or the request
+ * fails — a broken fetch should leave the Discord buttons pointing at the
+ * last known-good link, not at nothing.
+ */
+export async function getDiscordInvite(): Promise<string> {
+  const rows = await fetchTable<{ discord_invite: string }>("site_settings", "id.asc");
+  return rows[0]?.discord_invite?.trim() || DISCORD_INVITE;
+}

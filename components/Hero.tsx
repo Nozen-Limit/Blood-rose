@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { Stat } from "@/lib/types";
-import { DISCORD_INVITE } from "@/lib/site";
+import { useDiscordInvite } from "./SiteSettings";
 import StatStrip from "./StatStrip";
 
 export default function Hero({ stats }: { stats: Stat[] }) {
+  const discordInvite = useDiscordInvite();
   const imgRef = useRef<HTMLImageElement>(null);
   const [loaded, setLoaded] = useState(false);
 
@@ -50,7 +51,7 @@ export default function Hero({ stats }: { stats: Stat[] }) {
         <div className="hero-copy">
           <p className="tagline">Rising together</p>
           <StatStrip stats={stats} />
-          <a href={DISCORD_INVITE} className="btn-pill">
+          <a href={discordInvite} className="btn-pill">
             Join our Discord
             <span className="btn-pill-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24">

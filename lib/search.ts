@@ -9,8 +9,6 @@
    panel — so a visitor who never searches never pays for it at all.
    ========================================================================== */
 
-import { DISCORD_INVITE } from "./site";
-
 export type SearchEntry = {
   title: string;
   section: string;
@@ -18,8 +16,14 @@ export type SearchEntry = {
   keywords: string;
 };
 
-/** The hand-written section entries: searching "events" finds the page itself. */
-export const SECTION_ENTRIES: SearchEntry[] = [
+/**
+ * The hand-written section entries: searching "events" finds the page itself.
+ *
+ * A function rather than a constant because the Discord entry has to carry
+ * the live invite from site_settings — a stale link here would be a search
+ * result that quietly goes nowhere.
+ */
+export const sectionEntries = (discordInvite: string): SearchEntry[] => [
   { title: "Our Story", section: "Home", url: "/#story", keywords: "history founded guild about" },
   { title: "Our Goals", section: "Home", url: "/#goals", keywords: "goals mission gvg elite roster community" },
   { title: "Officers", section: "Home", url: "/#officers", keywords: "officers guild master ranks staff" },
@@ -35,7 +39,7 @@ export const SECTION_ENTRIES: SearchEntry[] = [
   { title: "Funny Videos", section: "Gallery", url: "/gallery#funny", keywords: "funny videos guild clips" },
   { title: "Serious Videos", section: "Gallery", url: "/gallery#serious", keywords: "serious videos guild highlights" },
 
-  { title: "Join our Discord", section: "Discord", url: DISCORD_INVITE, keywords: "discord invite join chat link" },
+  { title: "Join our Discord", section: "Discord", url: discordInvite, keywords: "discord invite join chat link" },
 ];
 
 /* ------------------------------------------------------------------------

@@ -15,6 +15,8 @@ import Footer from "@/components/Footer";
 import FloatingUi from "@/components/FloatingUi";
 import BackgroundDecor from "@/components/BackgroundDecor";
 import SearchProvider from "@/components/SearchProvider";
+import { SiteSettingsProvider } from "@/components/SiteSettings";
+import { getDiscordInvite } from "@/lib/data";
 import { SITE_URL } from "@/lib/site";
 
 /* Self-hosted by Next at build time rather than fetched from Google on
@@ -65,7 +67,11 @@ export const viewport = { themeColor: "#e0313b" };
    and Next doesn't attempt static generation it will only have to abandon. */
 export const dynamic = "force-dynamic";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  /* Read once here rather than in each component that shows a Discord
+     button — see components/SiteSettings.tsx. */
+  const discordInvite = await getDiscordInvite();
+
   return (
     /* "js" is not decorative: animations.css gates the entire scroll-reveal
        system behind `.js .reveal`, a class the old site's utils.js added at
@@ -74,13 +80,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
        but without it every fade-in silently stops working. */
     <html lang="en" className={`js ${cinzel.variable} ${inter.variable}`}>
       <body>
-        <SearchProvider>
-          <BackgroundDecor />
-          <Nav />
-          <main>{children}</main>
-          <Footer />
-          <FloatingUi />
-        </SearchProvider>
+        <SiteSettingsProvider discordInvite={discordInvite}>
+          <SearchProvider>
+            <BackgroundDecor />
+            <Nav />
+            <main>{children}</main>
+            <Footer />
+            <FloatingUi />
+          </SearchProvider>
+        </SiteSettingsProvider>
       </body>
     </html>
   );

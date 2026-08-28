@@ -5,6 +5,13 @@
    constant now.
    ========================================================================== */
 
+/**
+ * FALLBACK ONLY. The live invite lives in the site_settings table and is
+ * edited from the admin's Settings page — see lib/data.ts#getDiscordInvite.
+ * This value is used when that read fails, so the buttons still go somewhere
+ * sensible rather than nowhere. Changing it here changes nothing on the
+ * running site.
+ */
 export const DISCORD_INVITE = "https://discord.gg/PbFs4eXEv4";
 
 /* The canonical hostname. Used as metadataBase, so it resolves the og:image

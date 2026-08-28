@@ -7,10 +7,11 @@
    ========================================================================== */
 
 import { useState } from "react";
-import { DISCORD_INVITE } from "@/lib/site";
+import { useDiscordInvite } from "./SiteSettings";
 import { useOnScroll, usePrefersReducedMotion } from "@/lib/hooks";
 
 export default function FloatingUi() {
+  const discordInvite = useDiscordInvite();
   const [past, setPast] = useState(false);
   const reduced = usePrefersReducedMotion();
 
@@ -40,7 +41,7 @@ export default function FloatingUi() {
       </button>
 
       <div className={`mobile-cta${shown}`}>
-        <a href={DISCORD_INVITE} className="btn btn-primary mobile-cta-btn">
+        <a href={discordInvite} className="btn btn-primary mobile-cta-btn">
           Join our Discord
         </a>
       </div>
