@@ -1,0 +1,30 @@
+/* ==========================================================================
+   BLOOD ROSE — STYLESHEET ENTRY POINT
+
+   Ported unchanged from the static site's css/main.css. Order matters:
+   tokens define the variables everything else uses, base sets element
+   defaults, then each component layers on top.
+
+   home-fx.css is imported here rather than only on the landing page. In the
+   static site it was a separate <link> on index.html alone; here every route
+   shares one stylesheet, and the rules are inert unless the elements they
+   target (the ember canvas, the petal field) are actually rendered.
+   ========================================================================== */
+
+@import url("./styles/tokens.css");
+@import url("./styles/base.css");
+
+@import url("./styles/background.css");
+@import url("./styles/nav.css");
+@import url("./styles/search.css");
+@import url("./styles/hero.css");
+@import url("./styles/testimonial.css");
+@import url("./styles/cards.css");
+@import url("./styles/timeline.css");
+@import url("./styles/content.css");
+@import url("./styles/carousel.css");
+@import url("./styles/buttons.css");
+@import url("./styles/footer.css");
+@import url("./styles/home-fx.css");
+
+@import url("./styles/animations.css");
