@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
-/* A grid of titled cards with a paragraph each — guide builds, mechanics,
-   wiki classes. `empty` is the message shown when there's nothing yet. */
+/* A grid of titled cards with a paragraph each — guide builds and
+   mechanics. `empty` is the message shown when there's nothing yet. */
 export default function InfoCardGrid({
   items, empty, emptyClass = "timeline-empty",
 }: {

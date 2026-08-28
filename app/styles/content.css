@@ -36,7 +36,6 @@
   margin-bottom: 0.5em;
 }
 
-
 /* --------------------------------------------------------------------------
    Data tables
    The wrapper scrolls sideways on narrow phones instead of squashing the
@@ -76,100 +75,6 @@
 .data-table tbody tr:hover {
   background-color: var(--surface);
 }
-
-/* Groups items within a price section — e.g. "Shield", "Helm" — so members
-   can scan straight to the gear slot they're after instead of one long
-   undifferentiated list. */
-.price-category {
-  margin-top: 1.75rem;
-  margin-bottom: 0;
-  color: var(--text-dim);
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.price-category:first-of-type {
-  margin-top: 1.5rem;
-}
-
-/* Switches which class's prices are showing — see js/prices.js. Styled
-   like the site's other pill controls (nav-cta, btn) rather than a bare
-   native dropdown, but color-scheme: dark keeps the OS-drawn open menu
-   readable too, since that part can't be restyled with CSS. */
-.price-class-select {
-  display: block;
-  width: 100%;
-  max-width: 20rem;
-  margin: 0 auto 2rem;
-  padding: 0.7rem 1.1rem;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background-color: var(--surface);
-  color: var(--text);
-  font: inherit;
-  font-weight: 700;
-  text-align: center;
-  cursor: pointer;
-  color-scheme: dark;
-}
-
-.price-class-select:hover,
-.price-class-select:focus-visible {
-  border-color: var(--red);
-}
-
-/* --------------------------------------------------------------------------
-   Category picker — one card per category (Shield, Helm, ...) within the
-   selected class. Tapping a card reveals that category's items below the
-   grid instead of everything being shown stacked at once. See js/prices.js.
-   -------------------------------------------------------------------------- */
-
-.price-category-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 0.75rem;
-  margin-top: 1.5rem;
-}
-
-.price-category-card {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.85rem 1rem;
-  text-align: left;
-  cursor: pointer;
-  font: inherit;
-  color: var(--text);
-  transition: border-color 0.2s ease, transform 0.2s ease;
-}
-
-.price-category-card:hover {
-  border-color: var(--red);
-  transform: translateY(-2px);
-}
-
-.price-category-card.is-active {
-  border-color: var(--red);
-  background-color: rgba(176, 27, 46, 0.12);
-}
-
-.price-category-card-name {
-  display: block;
-  font-weight: 700;
-}
-
-.price-category-card-count {
-  display: block;
-  margin-top: 0.15rem;
-  color: var(--text-dim);
-  font-size: 0.8rem;
-}
-
-.price-category-detail .price-category {
-  margin-top: 0;
-}
-
 
 /* --------------------------------------------------------------------------
    Video grid
@@ -222,7 +127,6 @@
   margin-bottom: 0.4em;
 }
 
-
 /* --------------------------------------------------------------------------
    Image grid
    -------------------------------------------------------------------------- */
@@ -269,7 +173,6 @@
   font-size: 0.85rem;
   text-align: center;
 }
-
 
 @media (min-width: 700px) {
   .video-grid {

@@ -39,17 +39,6 @@ export type GuildEvent = {
   sort_order: number;
 };
 
-/** price_sections.rows — [category, item, price] tuples */
-export type PriceRow = [string, string, string];
-
-export type PriceSection = {
-  id: string;
-  title: string;
-  columns: string[];
-  rows: PriceRow[];
-  sort_order: number;
-};
-
 export type GuideKind = "build" | "video" | "mechanic";
 
 export type GuideItem = {
@@ -73,14 +62,6 @@ export type GallerySection = {
   sort_order: number;
 };
 
-export type WikiItem = {
-  id: string;
-  kind: "class" | "glossary";
-  title: string;
-  body: string | null;
-  sort_order: number;
-};
-
 export type Stat = { id: string; value: string; label: string; sort_order: number };
 export type Testimonial = { id: string; quote: string; name: string; sort_order: number };
 
@@ -92,7 +73,3 @@ export type Guides = {
   mechanics: GuideItem[];
 };
 
-export type Wiki = {
-  classes: WikiItem[];
-  glossary: { columns: string[]; rows: string[][] };
-};

@@ -12,9 +12,14 @@ const nextConfig: NextConfig = {
       ["/events.html", "/events"],
       ["/events-history.html", "/events/history"],
       ["/guides.html", "/guides"],
-      ["/prices.html", "/prices"],
+      /* Prices and Wiki were removed — the game has no API to keep them
+         accurate by hand. Old links are still pasted around Discord, so
+         they land on the homepage instead of a bare 404. */
+      ["/prices.html", "/"],
+      ["/prices", "/"],
       ["/gallery.html", "/gallery"],
-      ["/wiki.html", "/wiki"],
+      ["/wiki.html", "/"],
+      ["/wiki", "/"],
     ];
 
     return moved.map(([source, destination]) => ({

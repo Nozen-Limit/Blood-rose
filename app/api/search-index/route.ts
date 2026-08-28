@@ -1,7 +1,7 @@
 /* ==========================================================================
    SEARCH INDEX ENDPOINT
    Builds the full searchable index — every event, officer, price row, guide,
-   gallery item and wiki class — on the server, in one place.
+   gallery item and guide — on the server, in one place.
 
    This replaces js/search-sources.js. Crucially it also replaces the reason
    the static site loaded all eight data tables on every page view: the
@@ -12,15 +12,15 @@
 import { NextResponse } from "next/server";
 import { SECTION_ENTRIES, type SearchEntry } from "@/lib/search";
 import {
-  getEvents, getOfficers, getPrices, getGuides, getGallery, getWiki,
+  getEvents, getOfficers, getGuides, getGallery,
 } from "@/lib/data";
 
 /** Joins whatever it's given into one keyword string, skipping empties. */
 const words = (...parts: unknown[]) => parts.filter(Boolean).join(" ");
 
 export async function GET() {
-  const [events, officers, prices, guides, gallery, wiki] = await Promise.all([
-    getEvents(), getOfficers(), getPrices(), getGuides(), getGallery(), getWiki(),
+  const [events, officers, guides, gallery] = await Promise.all([
+    getEvents(), getOfficers(), getGuides(), getGallery(),
   ]);
 
   const entries: SearchEntry[] = [];
@@ -41,14 +41,6 @@ export async function GET() {
     add(item.name, "Officers", "/#officers", words(item.rank, item.note, detailText));
   }
 
-  /* One entry per price row, linking to its own class section. Each row is
-     [category, item name, price]. */
-  for (const group of prices) {
-    for (const row of group.rows ?? []) {
-      add(row[1], "Prices", `/prices#${group.id}`, words(group.title, row[0], row[2]));
-    }
-  }
-
   for (const item of guides.builds) add(item.title, "Guides", "/guides#builds", item.body ?? "");
   for (const item of guides.videos) add(item.title, "Guides", "/guides#videos", "video guide youtube");
   for (const item of guides.mechanics) {
@@ -66,9 +58,7 @@ export async function GET() {
     }
   }
 
-  for (const item of wiki.classes) add(item.title, "Wiki", "/wiki#classes", item.body ?? "");
-
-  /* Section entries first so a search for "prices" still surfaces the page
+  /* Section entries first so a search for "events" still surfaces the page
      itself alongside the individual items on it. */
   return NextResponse.json([...SECTION_ENTRIES, ...entries]);
 }

@@ -12,8 +12,8 @@
    ========================================================================== */
 
 import type {
-  Officer, GuildEvent, PriceSection, GuideItem, GallerySection,
-  WikiItem, Stat, Testimonial, Guides, Wiki
+  Officer, GuildEvent, GuideItem, GallerySection,
+  Stat, Testimonial, Guides
 } from "./types";
 
 const URL_BASE = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -50,7 +50,6 @@ async function fetchTable<T>(table: string, orderBy = "sort_order.asc"): Promise
 
 export const getOfficers     = () => fetchTable<Officer>("officers");
 export const getEvents       = () => fetchTable<GuildEvent>("events");
-export const getPrices       = () => fetchTable<PriceSection>("price_sections");
 export const getGallery      = () => fetchTable<GallerySection>("gallery_sections");
 export const getStats        = () => fetchTable<Stat>("stats");
 export const getTestimonials = () => fetchTable<Testimonial>("testimonials");
@@ -71,16 +70,3 @@ export async function getGuides(): Promise<Guides> {
   };
 }
 
-/** Wiki likewise: class cards, plus glossary rows flattened to table cells. */
-export async function getWiki(): Promise<Wiki> {
-  const rows = await fetchTable<WikiItem>("wiki_items");
-  return {
-    classes: rows.filter((r) => r.kind === "class"),
-    glossary: {
-      columns: ["Term", "Meaning"],
-      rows: rows
-        .filter((r) => r.kind === "glossary")
-        .map((r) => [r.title, r.body ?? ""]),
-    },
-  };
-}

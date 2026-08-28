@@ -3,7 +3,7 @@
 
    Next merges `metadata` shallowly: a page that declares its own
    `openGraph` REPLACES the root layout's openGraph object outright, which
-   silently drops the shared og:image — so a link to /prices pasted into
+   silently drops the shared og:image — so a link to /events pasted into
    Discord would preview with no picture, while / previewed fine.
 
    Building the whole block here keeps every page's preview complete.

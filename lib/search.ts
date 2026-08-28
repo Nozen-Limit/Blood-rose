@@ -18,7 +18,7 @@ export type SearchEntry = {
   keywords: string;
 };
 
-/** The hand-written section entries: searching "prices" finds the page itself. */
+/** The hand-written section entries: searching "events" finds the page itself. */
 export const SECTION_ENTRIES: SearchEntry[] = [
   { title: "Our Story", section: "Home", url: "/#story", keywords: "history founded guild about" },
   { title: "Our Goals", section: "Home", url: "/#goals", keywords: "goals mission gvg elite roster community" },
@@ -31,16 +31,9 @@ export const SECTION_ENTRIES: SearchEntry[] = [
   { title: "Procs & Mechanics", section: "Guides", url: "/guides#procs", keywords: "proc mechanics how to proc" },
   { title: "Video Guides", section: "Guides", url: "/guides#videos", keywords: "youtube video tutorial how to" },
 
-  { title: "Warrior Prices", section: "Prices", url: "/prices#warrior", keywords: "price warrior shield blade chain gear cost" },
-  { title: "Rogue Prices", section: "Prices", url: "/prices#rogue", keywords: "price rogue daggers bow chakram gear cost" },
-  { title: "Sorcerer Prices", section: "Prices", url: "/prices#sorcerer", keywords: "price sorcerer gun staff orb gear cost" },
-
   { title: "Guild Activities", section: "Gallery", url: "/gallery#activities", keywords: "photos pictures screenshots guild activity" },
   { title: "Funny Videos", section: "Gallery", url: "/gallery#funny", keywords: "funny videos guild clips" },
   { title: "Serious Videos", section: "Gallery", url: "/gallery#serious", keywords: "serious videos guild highlights" },
-
-  { title: "Classes", section: "Wiki", url: "/wiki#classes", keywords: "warrior rogue sorcerer class reference" },
-  { title: "Mechanics", section: "Wiki", url: "/wiki#mechanics", keywords: "mechanics game systems reference" },
 
   { title: "Join our Discord", section: "Discord", url: DISCORD_INVITE, keywords: "discord invite join chat link" },
 ];
