@@ -1,8 +1,7 @@
 /* ==========================================================================
    BACKGROUND
    The fixed ambient layer behind the whole site: soft red glow blobs that
-   drift on scroll (driven by js/parallax.js) and the blood drip band that
-   hangs under the nav bar.
+   drift on scroll.
    ========================================================================== */
 
 .bg-decor {
@@ -13,7 +12,6 @@
   background-color: var(--bg);
   pointer-events: none;
 }
-
 
 /* --------------------------------------------------------------------------
    Glow blobs
@@ -52,124 +50,9 @@
   background: radial-gradient(circle, var(--red) 0%, transparent 70%);
 }
 
-
-/* --------------------------------------------------------------------------
-   Blood drip band
-   Sits at the very top of this layer. The header is opaque and has a higher
-   z-index, so it covers the flat top of the band and only the drip tips show
-   hanging below the nav — a signature accent, not a flat block of red.
-   -------------------------------------------------------------------------- */
-
-/* Height is deliberately well over the nav's 3.75rem. The header hides
-   everything above its own bottom edge, so if the band is only a little
-   taller than the nav, all that shows is the severed bottom tips of the
-   longest drips — they read as random red blobs, not drips. Sizing it to
-   roughly 3x the nav height leaves enough of each drip visible, including
-   where it joins the band, for the shape to make sense. */
-.bg-drip {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: calc(var(--nav-height) * 2.4);
-  display: block;
-  opacity: 0.55;
-}
-
-.bg-drop {
-  position: absolute;
-  top: 56px;
-  width: 7px;
-  height: 9px;
-  border-radius: 50% 50% 60% 60%;
-  background-color: var(--red-bright);
-  opacity: 0;
-  animation: drip-fall 2s ease-in infinite;
-}
-
-/* Staggered (in thirds of the 2s duration) so the drops never fall in
-   sync. .bg-splat below re-uses these same numbers so each splat lands
-   in time with its own drop. */
-.bg-drop-1 { left: 18%; animation-delay: 0s; }
-.bg-drop-2 { left: 41%; animation-delay: 0.65s; }
-.bg-drop-3 { left: 62%; animation-delay: 1.3s; }
-
-@keyframes drip-fall {
-  0% {
-    transform: translateY(0) scaleY(1);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.9;
-  }
-  75% {
-    opacity: 0.6;
-  }
-  100% {
-    /* 100vh is the full screen height. Since the drop starts 56px down
-       (just under the nav), falling exactly 100vh would overshoot the
-       bottom edge by that same 56px — subtracting it lands the drop
-       precisely at the bottom of the screen instead of just past it. */
-    transform: translateY(calc(100vh - 56px)) scaleY(1.4);
-    opacity: 0;
-  }
-}
-
-/* A small stain that flashes where each drop lands. It's a separate
-   element rather than part of .bg-drop itself, because .bg-drop is already
-   being moved by its own translateY animation — anything attached to it
-   would inherit that motion and slide down too, instead of staying put at
-   the landing spot. Position (top/left) is fixed; only opacity and scale
-   animate, timed to appear right as the matching drop fades out above it. */
-.bg-splat {
-  position: absolute;
-  /* Sits right at the bottom edge of the screen — using `bottom` here
-     instead of computing a `top` value means it's correct on every device
-     height automatically, phone or desktop. */
-  bottom: 0.5rem;
-  width: 14px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: var(--red);
-  opacity: 0;
-  transform: scale(0);
-  animation: drip-splat 2s ease-out infinite;
-}
-
-.bg-splat-1 { left: 18%; animation-delay: 0s; }
-.bg-splat-2 { left: 41%; animation-delay: 0.65s; }
-.bg-splat-3 { left: 62%; animation-delay: 1.3s; }
-
-@keyframes drip-splat {
-  /* Invisible for most of the cycle, then pops in right as the drop above
-     it reaches the ground (drip-fall finishes at 100%), then fades before
-     the next drop starts falling. */
-  0%, 78% {
-    opacity: 0;
-    transform: scale(0);
-  }
-  84% {
-    opacity: 0.8;
-    transform: scale(1);
-  }
-  92% {
-    opacity: 0.5;
-    transform: scale(1.15);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.15);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .bg-blob {
     transform: none !important;
   }
 
-  .bg-drop,
-  .bg-splat {
-    animation: none;
-    opacity: 0;
-  }
 }

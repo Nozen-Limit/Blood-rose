@@ -35,12 +35,12 @@ export default async function GuidesPage() {
 
       <Reveal as="section" className="section" id="builds">
         <h2>What to Build</h2>
-        <InfoCardGrid items={guides.builds} empty="To be placed soon." emptyClass="guides-empty" />
+        <InfoCardGrid items={guides.builds} empty="No build guides yet." />
       </Reveal>
 
       <Reveal as="section" className="section" id="procs">
         <h2>Procs &amp; Mechanics</h2>
-        <InfoCardGrid items={guides.mechanics} empty="To be placed soon." emptyClass="guides-empty" />
+        <InfoCardGrid items={guides.mechanics} empty="No procs or mechanics yet." />
       </Reveal>
     </>
   );

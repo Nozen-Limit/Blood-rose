@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import type { Stat } from "@/lib/types";
 import { DISCORD_INVITE } from "@/lib/site";
 import StatStrip from "./StatStrip";
@@ -62,10 +61,6 @@ export default function Hero({ stats }: { stats: Stat[] }) {
         </div>
       </div>
 
-      <Link href="/#story" className="scroll-cue" aria-label="Scroll to Our Story">
-        <span className="mouse" aria-hidden="true" />
-        Scroll
-      </Link>
     </section>
   );
 }

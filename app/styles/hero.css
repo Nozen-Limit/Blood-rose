@@ -5,14 +5,17 @@
    js/stats.js; the word entrance below is pure CSS, no script involved.
    ========================================================================== */
 
+/* clamp rather than a flat 100vh: a full-viewport hero pushed every bit of
+   real content below the fold and read as wasted space, especially on wide
+   monitors. The floor keeps it from getting cramped on short screens; the
+   ceiling stops it ballooning on tall ones. */
 .hero {
   position: relative;
   overflow: hidden;
-  min-height: 100vh;
+  min-height: clamp(26rem, 68vh, 40rem);
   display: flex;
   align-items: center;
 }
-
 
 /* --------------------------------------------------------------------------
    Background layer
@@ -65,7 +68,6 @@
       linear-gradient(180deg, rgba(10, 6, 7, .35) 0%, transparent 30%, transparent 60%, var(--bg) 99%);
   }
 }
-
 
 /* --------------------------------------------------------------------------
    Content — vertically centered, above the overlay
@@ -163,7 +165,6 @@
   font-size: clamp(1rem, 2vw, 1.3rem);
 }
 
-
 /* --------------------------------------------------------------------------
    Stat strip — however many stats exist in Supabase, laid out with a
    divider between each so it reads as one connected strip
@@ -208,7 +209,6 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
-
 
 /* --------------------------------------------------------------------------
    Pill button (hero CTA)
@@ -255,72 +255,6 @@
 .btn-pill:hover .btn-pill-icon {
   transform: scale(1.1);
 }
-
-
-/* --------------------------------------------------------------------------
-   Scroll cue — small hint at the bottom of the hero, hidden once scrolled
-   past (see js/nav.js's is-scrolled toggle is separate; this just fades
-   with the hero itself since it's positioned inside it)
-   -------------------------------------------------------------------------- */
-
-.scroll-cue {
-  position: absolute;
-  z-index: 1;
-  bottom: 1.75rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.55rem;
-  color: var(--text-dim-2);
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  opacity: 0;
-  animation: hero-rise 1s var(--ease) 1s forwards;
-}
-
-.scroll-cue:hover {
-  color: var(--text-dim);
-  text-decoration: none;
-}
-
-.scroll-cue .mouse {
-  width: 1.35rem;
-  height: 2.1rem;
-  border: 1.5px solid var(--text-dim-2);
-  border-radius: 0.75rem;
-  position: relative;
-}
-
-.scroll-cue .mouse::after {
-  content: "";
-  position: absolute;
-  top: 0.4rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 3px;
-  height: 6px;
-  background-color: var(--red-bright);
-  border-radius: 2px;
-  animation: scroll-wheel 1.6s infinite;
-}
-
-@keyframes scroll-wheel {
-  0%          { opacity: 0; transform: translate(-50%, 0); }
-  40%         { opacity: 1; }
-  80%, 100%   { opacity: 0; transform: translate(-50%, 10px); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .scroll-cue,
-  .scroll-cue .mouse::after {
-    animation: none;
-    opacity: 1;
-  }
-}
-
 
 /* --------------------------------------------------------------------------
    Our Story — circular emblem photo with two slow-spinning decorative rings
@@ -415,17 +349,14 @@
   }
 }
 
-
 /* --------------------------------------------------------------------------
    Sub-page hero (events / guides / gallery) — unchanged
    -------------------------------------------------------------------------- */
 
-/* Top padding clears the drip band (background.css), which hangs to about
-   2.4x the nav height — without this the deepest drips crowd the heading. */
 .page-hero {
   max-width: var(--container-width);
   margin: 0 auto;
-  padding: 5.5rem 1.25rem 1rem;
+  padding: 3rem 1.25rem 1rem;
   text-align: center;
 }
 
@@ -439,13 +370,11 @@
   margin: 0 auto;
 }
 
-
 @media (min-width: 800px) {
   .hero-bottom {
     padding: calc(var(--nav-height) + 1.5rem) 2rem 3.5rem;
   }
 }
-
 
 @media (prefers-reduced-motion: reduce) {
   .hero-word,

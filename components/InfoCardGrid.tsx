@@ -1,15 +1,16 @@
 import type { ReactNode } from "react";
 
-/* A grid of titled cards with a paragraph each — guide builds and
-   mechanics. `empty` is the message shown when there's nothing yet. */
+/* A grid of titled cards with a paragraph each — guide builds and mechanics. */
 export default function InfoCardGrid({
-  items, empty, emptyClass = "timeline-empty",
+  items, empty,
 }: {
   items: { id: string; title: string; body: string | null }[];
+  /** Shown when there's nothing yet. Phrase it as "No X yet." — naming what
+      is absent reads as a finished site with an empty section, whereas a
+      promise like "coming soon" reads as an unfinished one. */
   empty: string;
-  emptyClass?: string;
 }): ReactNode {
-  if (!items.length) return <p className={emptyClass}>{empty}</p>;
+  if (!items.length) return <p className="timeline-empty">{empty}</p>;
 
   return (
     <div className="goal-grid">
