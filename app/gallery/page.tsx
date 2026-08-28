@@ -3,7 +3,7 @@ import { getGallery } from "@/lib/data";
 import type { GalleryImage as GalleryImageType, GalleryVideo } from "@/lib/types";
 import Reveal from "@/components/Reveal";
 import VideoCard from "@/components/VideoCard";
-import GalleryImage from "@/components/GalleryImage";
+import GalleryGrid from "@/components/GalleryGrid";
 
 export const metadata = pageMetadata({
   title: "Gallery",
@@ -32,15 +32,17 @@ export default async function GalleryPage() {
         return (
           <Reveal as="section" className="section" id={group.id} key={group.id}>
             <h2>{group.title}</h2>
-              <div className={isVideo ? "video-grid" : "image-grid"}>
-                {(group.items ?? []).map((item, i) =>
-                  isVideo ? (
-                    <VideoCard key={i} item={item as GalleryVideo} />
-                  ) : (
-                    <GalleryImage key={i} item={item as GalleryImageType} />
-                  )
-                )}
-            </div>
+            {isVideo ? (
+              <div className="video-grid">
+                {(group.items ?? []).map((item, i) => (
+                  <VideoCard key={i} item={item as GalleryVideo} />
+                ))}
+              </div>
+            ) : (
+              /* Photos get their own client component so they can be tapped
+                 open at full size — see GalleryGrid. */
+              <GalleryGrid items={(group.items ?? []) as GalleryImageType[]} />
+            )}
           </Reveal>
         );
       })}
