@@ -7,7 +7,11 @@
 
 export const DISCORD_INVITE = "https://discord.gg/PbFs4eXEv4";
 
-export const SITE_URL = "https://blood-rose-five.vercel.app";
+/* The canonical hostname. Used as metadataBase, so it resolves the og:image
+   path and every page's og:url — get it wrong and Discord previews point at
+   somewhere the guild doesn't actually live. www, not the apex, because
+   Vercel is configured to 308-redirect bloodrose.site -> www.bloodrose.site. */
+export const SITE_URL = "https://www.bloodrose.site";
 
 export const NAV_LINKS = [
   { href: "/",        label: "Home" },
