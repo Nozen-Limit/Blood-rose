@@ -12,6 +12,7 @@ export default function VideoCard({ item }: { item: VideoItem }) {
           src={`https://www.youtube.com/embed/${item.youtubeId}`}
           title={item.title || "Video"}
           loading="lazy"
+          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
           frameBorder="0"
         />
