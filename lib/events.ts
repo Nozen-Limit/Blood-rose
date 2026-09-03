@@ -54,18 +54,20 @@ function parseEventDate(value: string | null): Parsed | null {
 }
 
 /**
- * "Aug 12, 6:00 PM" — hand-formatted rather than toLocaleString(), so it
- * reads identically for every visitor regardless of their browser's
- * language and region, matching the rest of the site's fixed English copy.
+ * "Aug 12, 16:00" — 24-hour, hand-formatted rather than toLocaleString(),
+ * so it reads identically for every visitor regardless of their browser's
+ * language and region.
+ *
+ * 24-hour on purpose: the guild announces events in Arcane Legends server
+ * time as "16:00", and officers now enter them that way in the admin. A
+ * 12-hour display here would mean the site quoted a different number than
+ * the announcement.
  */
 export function formatEventDate(date: Date): string {
-  const hours24 = date.getHours();
-  const minutes = date.getMinutes();
-  const ampm = hours24 >= 12 ? "PM" : "AM";
-  const hours12 = hours24 % 12 || 12;
-  const minuteText = minutes < 10 ? `0${minutes}` : String(minutes);
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
 
-  return `${MONTH_ABBR[date.getMonth()]} ${date.getDate()}, ${hours12}:${minuteText} ${ampm}`;
+  return `${MONTH_ABBR[date.getMonth()]} ${date.getDate()}, ${hours}:${minutes}`;
 }
 
 export type TimelineEvent = GuildEvent & { parsedDate: Date | null };
